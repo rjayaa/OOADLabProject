@@ -13,19 +13,18 @@ public class MenuController {
 
 	public ArrayList<FoodItem> showMenuItems() {
 		ArrayList<FoodItem> foodItem = new ArrayList<>();
-		String query = "SELECT * FROM menu";
+		String query = "SELECT * FROM fooditem";
 
 		try(Connection connection = Singleton.getInstance().getConnection()){
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			while(resultSet.next()) {
-				String id = resultSet.getString("MenuItemID");
-				String name = resultSet.getString("MenuItemName");
-				String desc = resultSet.getString("MenuItemDescription");
-				int price = resultSet.getInt("MenuItemPrice");
+				String id = resultSet.getString("menuItemID");
+				String name = resultSet.getString("menuItemName");
+				String desc = resultSet.getString("menuItemDescription");
+				int price = resultSet.getInt("menuItemPrice");
 				foodItem.add(new FoodItem(id,name,desc,price));
 			}
-//			statement.executeUpdate(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

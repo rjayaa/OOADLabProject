@@ -42,38 +42,41 @@ public class CustomerPage extends Stage {
 		root = new BorderPane();
 		Scene scene = new Scene(root,1200,600);
 		this.setScene(scene);
+		
 		menuBar = new MenuBar();
-		Menu menuItems = new Menu("Menu");
-
 		
-		
+		Menu menu1 = new Menu("Menu");
 		MenuItem mItem = new MenuItem("Menu");
 		mItem.setOnAction(e ->{
 			showMenuList();
 		});
-		menuItems.getItems().addAll(mItem);
+		menu1.getItems().addAll(mItem);
 
-		MenuItem orderList = new Menu("My Orders");
-		orderList.setOnAction(e -> {
+		Menu menu2 = new Menu("My Orders");
+		MenuItem moItem = new Menu("My Orders");
+		moItem.setOnAction(e -> {
 			showCustomerOrderList();
 		});
-		menuItems.getItems().addAll(orderList);
+		menu2.getItems().addAll(moItem);
 
-		MenuItem profile = new Menu("My Profile");
-		profile.setOnAction(e -> {
+		Menu menu3 = new Menu("My Profile");
+		MenuItem pItem = new Menu("My Profile");
+		pItem.setOnAction(e -> {
 			showCustomerProfile();
 		});
-		menuItems.getItems().addAll(profile);
+		menu3.getItems().addAll(pItem);
+			
 		
-//		menuBar.getMenus().addAll(profile);		
-		
-		menuBar.getMenus().addAll(menuItems);
+		menuBar.getMenus().addAll(menu1);
+		menuBar.getMenus().addAll(menu2);
+		menuBar.getMenus().addAll(menu3);
 		root.setTop(menuBar);
+		menuBar.setPadding(new Insets(10));
 		
 		
 		
-		contentArea = new VBox(20);
-		contentArea.setPadding(new Insets(20));
+		contentArea = new VBox(40);
+		contentArea.setPadding(new Insets(10));
 		contentArea.setAlignment(Pos.CENTER);
 //		contentArea.getChildren().addAll(lb);
 		root.setCenter(contentArea);
@@ -93,6 +96,7 @@ public class CustomerPage extends Stage {
 		
 		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
 		loadMenuItemsData(menuItemsTable);
+		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(menuItemsTable);
 	}
 	
@@ -111,30 +115,30 @@ public class CustomerPage extends Stage {
 		TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
 		priceColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemPrice"));
 		
-//		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
-//		actionColumn.setCellFactory(e -> new TableCell<>() {
-//			private Button addButton = new Button("Add");
-//			private HBox container = new HBox(10);
-//			private Label quantityLbl;
-//			private TextField quantityInput = new TextField();
-//			
-//			{
-//				quantityLbl = new Label("Quantity : ");
-//				addButton.setOnAction(e -> {
-//					FoodItem curr = getTableView().getItems().get(getIndex());
-//					orderCart.add(curr);
-//					int qty = Integer.parseInt(quantityInput.getText());
-//					orderQuantity.add(qty);
-//					submitOrder();
-//				});
-//				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
-//			}
-//		});
+		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button addButton = new Button("Add");
+			private HBox container = new HBox(10);
+			private Label quantityLbl;
+			private TextField quantityInput = new TextField();
+			
+			{
+				quantityLbl = new Label("Quantity : ");
+				addButton.setOnAction(e -> {
+					FoodItem curr = getTableView().getItems().get(getIndex());
+					orderCart.add(curr);
+					int qty = Integer.parseInt(quantityInput.getText());
+					orderQuantity.add(qty);
+					submitOrder();
+				});
+				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
+			}
+		});
 //		
 		menuItemsTable.getColumns().add(nameColumn);
 		menuItemsTable.getColumns().add(descriptionColumn);
 		menuItemsTable.getColumns().add(priceColumn);
-//		menuItemsTable.getColumns().add(actionColumn);
+		menuItemsTable.getColumns().add(actionColumn);
 		
 		return menuItemsTable;
 	}
@@ -207,6 +211,7 @@ public class CustomerPage extends Stage {
 		
 		TableView<Order> orderListTable = createOrderListTable();
 		loadOrderListData(orderListTable);
+		orderListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(orderListTable);
 	}
 	
@@ -265,6 +270,7 @@ public class CustomerPage extends Stage {
 		
 		TableView<OrderDetails> orderDetailsTable = createOrderDetailsTable(order);
 		loadOrderDetailsData(orderDetailsTable, order);
+		orderDetailsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(orderDetailsTable);
 		
 		Button backBtn = new Button("<< Back");

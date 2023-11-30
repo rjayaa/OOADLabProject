@@ -1,6 +1,7 @@
 package Controller;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,49 +16,52 @@ import Model.OrderDetails;
 
 public class OrderController {
 	
+	private static Connection connection = Singleton.getInstance().getConnection();
+	
 	public void insertOrder(Order order) {
-		String query = "INSERT INTO order(OrderID, UserID, PaymentType, PaymentAmount,Status)" + 
-				"VALUES ('" + order.getOrderID() + "','" + order.getUserID() +
-				"','" + order.getPaymentType() +"'," + order.getPaymentAmount() + ",'" +
-				order.getStatus() + "')";
+		String query = "INSERT INTO order(orderID, userID, paymentType, paymentAmount, status) VALUES (?,?,?,?,?)";
 		
-		try(Connection connection = Singleton.getInstance().getConnection()){
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(query);
-		}catch(SQLException e) {
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setString(1, order.getOrderID());
+			ps.setString(2, order.getUserID());
+			ps.setString(3, order.getPaymentType());
+			ps.setInt(4, order.getPaymentAmount());
+			ps.setString(5, order.getStatus());
+			ps.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void insertOrderDetails(OrderDetails orderDetail) {
-		String query = "INSERT INTO orderdetails(OrderDetailsID, OrderID, MenuID, Quantity)" + 
-				"VALUES ('" + orderDetail.getOrderDetailsID() + "','" + orderDetail.getOrderID() +
-				"','" + orderDetail.getMenuID() + "'," + orderDetail.getQuantity() +")";
+		String query = "INSERT INTO orderdetails(orderDetailsID, orderID, menuID, quantity) VALUES (?,?,?,?)";
 		
-		try(Connection connection = Singleton.getInstance().getConnection()){
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(query);
-		}catch(SQLException e) {
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setString(1, orderDetail.getOrderDetailsID());
+			ps.setString(2, orderDetail.getOrderID());
+			ps.setString(3, orderDetail.getMenuID());
+			ps.setInt(4, orderDetail.getQuantity());
+			ps.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public ArrayList<Order> showOrderList() {
 		ArrayList<Order> orderList = new ArrayList<>();
-		String query = "SELECT * FROM order";
+		String query = "SELECT * FROM `order`";
 
 		try(Connection connection = Singleton.getInstance().getConnection()){
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			while(resultSet.next()) {
-				String orderId = resultSet.getString("OrderID");
-				String userID = resultSet.getString("UserID");
-				String paymentType = resultSet.getString("PaymentType");
-				int paymentAmount = resultSet.getInt("PaymentAmount");
-				String paymentStatus = resultSet.getString("PaymentStatus");
+				String orderId = resultSet.getString("orderID");
+				String userID = resultSet.getString("userID");
+				String paymentType = resultSet.getString("paymentType");
+				int paymentAmount = resultSet.getInt("paymentAmount");
+				String paymentStatus = resultSet.getString("status");
 				orderList.add(new Order(orderId,userID, paymentType, paymentAmount, paymentStatus));
 			}
-//			statement.executeQ(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -67,18 +71,18 @@ public class OrderController {
 	
 	public ArrayList<OrderDetails> showOrderDetailsByOrder(Order order) {
 		ArrayList<OrderDetails> orderDetails = new ArrayList<>();
-		String query = "SELECT * FROM orderdetails WHERE OrderID = '" + order.getOrderID() + "'";
+		String query = "SELECT * FROM orderdetails WHERE orderID = '" + order.getOrderID() + "'";
 
 		try(Connection connection = Singleton.getInstance().getConnection()){
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(query);
 			while(resultSet.next()) {
-				String orderDetailsID = resultSet.getString("OrderDetailsID");
-				String menuID = resultSet.getString("MenuID");
-				int quantity = resultSet.getInt("Quantity");
+				String orderDetailsID = resultSet.getString("orderDetailsID");
+				String orderID = resultSet.getString("orderID");
+				String menuID = resultSet.getString("menuID");
+				int quantity = resultSet.getInt("quantity");
 				orderDetails.add(new OrderDetails(orderDetailsID, order.getOrderID(), menuID, quantity));
 			}
-//			statement.executeUpdate(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -86,12 +90,12 @@ public class OrderController {
 	}
 	
 	public void updateOrderDetails(OrderDetails od, Integer quantity) {
-		String query = "UPDATE orderdetails SET Quantity = " + quantity +
-				" WHERE OrderDetailsID = '" + od.getOrderDetailsID() + "')";
-		try(Connection connection = Singleton.getInstance().getConnection()){
-			Statement statement = connection.createStatement();
-			statement.executeUpdate(query);
-		}catch(SQLException e) {
+		String query = "UPDATE orderdetails SET quantity = ? WHERE orderDetailsID = ?";
+		try (PreparedStatement ps = connection.prepareStatement(query)) {
+			ps.setInt(1, quantity);
+			ps.setString(2, od.getOrderDetailsID());
+			ps.executeUpdate();
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
