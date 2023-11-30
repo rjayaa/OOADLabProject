@@ -111,30 +111,30 @@ public class CustomerPage extends Stage {
 		TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
 		priceColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemPrice"));
 		
-		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
-		actionColumn.setCellFactory(e -> new TableCell<>() {
-			private Button addButton = new Button("Add");
-			private HBox container = new HBox(10);
-			private Label quantityLbl;
-			private TextField quantityInput = new TextField();
-			
-			{
-				quantityLbl = new Label("Quantity : ");
-				addButton.setOnAction(e -> {
-					FoodItem curr = getTableView().getItems().get(getIndex());
-					orderCart.add(curr);
-					int qty = Integer.parseInt(quantityInput.getText());
-					orderQuantity.add(qty);
-					submitOrder();
-				});
-				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
-			}
-		});
-		
+//		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
+//		actionColumn.setCellFactory(e -> new TableCell<>() {
+//			private Button addButton = new Button("Add");
+//			private HBox container = new HBox(10);
+//			private Label quantityLbl;
+//			private TextField quantityInput = new TextField();
+//			
+//			{
+//				quantityLbl = new Label("Quantity : ");
+//				addButton.setOnAction(e -> {
+//					FoodItem curr = getTableView().getItems().get(getIndex());
+//					orderCart.add(curr);
+//					int qty = Integer.parseInt(quantityInput.getText());
+//					orderQuantity.add(qty);
+//					submitOrder();
+//				});
+//				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
+//			}
+//		});
+//		
 		menuItemsTable.getColumns().add(nameColumn);
 		menuItemsTable.getColumns().add(descriptionColumn);
 		menuItemsTable.getColumns().add(priceColumn);
-		menuItemsTable.getColumns().add(actionColumn);
+//		menuItemsTable.getColumns().add(actionColumn);
 		
 		return menuItemsTable;
 	}
@@ -214,19 +214,19 @@ public class CustomerPage extends Stage {
 		TableView<Order> orderListTable = new TableView<>();
 		
 		TableColumn<Order, String> orderIDColumn = new TableColumn<>("Order ID");
-		orderIDColumn.setCellValueFactory(new PropertyValueFactory<>("Order ID"));
+		orderIDColumn.setCellValueFactory(new PropertyValueFactory<>("OrderID"));
 		
 		TableColumn<Order, String> userIDColumn = new TableColumn<>("User ID");
-		userIDColumn.setCellValueFactory(new PropertyValueFactory<>("User ID"));
+		userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
 		
 		TableColumn<Order, String> paymentTypeColumn = new TableColumn<>("Payment Type");
-		paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("Payment Type"));
+		paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentType"));
 		
 		TableColumn<Order, Integer> paymentAmountColumn = new TableColumn<>("Payment Amount");
-		paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("Payment Amount"));
+		paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentAmount"));
 		
-		TableColumn<Order, String> statusColumn = new TableColumn<>("Order Status");
-		statusColumn.setCellValueFactory(new PropertyValueFactory<>("Order Status"));
+		TableColumn<Order, String> statusColumn = new TableColumn<>("Payment Status");
+		statusColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentStatus"));
 		
 		TableColumn<Order, Void> actionColumn = new TableColumn<>("Order Details");
 		actionColumn.setCellFactory(e -> new TableCell<>() {

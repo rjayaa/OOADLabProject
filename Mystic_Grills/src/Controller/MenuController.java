@@ -25,7 +25,7 @@ public class MenuController {
 				int price = resultSet.getInt("MenuItemPrice");
 				foodItem.add(new FoodItem(id,name,desc,price));
 			}
-			statement.executeUpdate(query);
+//			statement.executeUpdate(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

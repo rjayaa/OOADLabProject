@@ -52,12 +52,12 @@ public class OrderController {
 			while(resultSet.next()) {
 				String orderId = resultSet.getString("OrderID");
 				String userID = resultSet.getString("UserID");
-				String paymentType = resultSet.getString("Payment Type");
-				int paymentAmount = resultSet.getInt("Payment Amount");
-				String paymentStatus = resultSet.getString("Payment Status");
+				String paymentType = resultSet.getString("PaymentType");
+				int paymentAmount = resultSet.getInt("PaymentAmount");
+				String paymentStatus = resultSet.getString("PaymentStatus");
 				orderList.add(new Order(orderId,userID, paymentType, paymentAmount, paymentStatus));
 			}
-			statement.executeUpdate(query);
+//			statement.executeQ(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,7 +78,7 @@ public class OrderController {
 				int quantity = resultSet.getInt("Quantity");
 				orderDetails.add(new OrderDetails(orderDetailsID, order.getOrderID(), menuID, quantity));
 			}
-			statement.executeUpdate(query);
+//			statement.executeUpdate(query);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
