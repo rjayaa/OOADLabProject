@@ -1,6 +1,6 @@
 package Main;
 
-import LoginAndSignup.LoginView;
+import Login.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
