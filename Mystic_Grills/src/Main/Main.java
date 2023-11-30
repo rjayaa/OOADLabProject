@@ -16,11 +16,8 @@ public class Main extends Application {
 	}
 
 	public void initScene() {
-		
-		CustomerPage cp = new CustomerPage();
-		cp.show();
-		//LoginView lg = new LoginView();
-		//lg.show();
+		LoginView lg = new LoginView();
+		lg.show();
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public class LoginView extends Stage {
 
 		btnLogin = new Button("Login");
 		btnLogin.setOnAction(new EventHandler<ActionEvent>() {
-
+			
 			@Override
 			public void handle(ActionEvent event) {
 				try {
@@ -72,6 +72,10 @@ public class LoginView extends Stage {
 						
 						CustomerPage cp = new CustomerPage();
 						cp.show();
+						Stage stg = (Stage) btnLogin.getScene().getWindow();
+						stg.close();
+						
+						
 					}
 				}catch(NumberFormatException e) {
 					
@@ -80,6 +84,7 @@ public class LoginView extends Stage {
 			}
 			
 		});
+		
 		
 		// pindah ke view signup
 		btnSignup = new Button("Signup");
