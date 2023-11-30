@@ -7,6 +7,7 @@ import Controller.OrderController;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
+import Model.User;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -26,6 +27,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.UserSession;
 
 public class CustomerPage extends Stage {
 	
@@ -37,8 +39,10 @@ public class CustomerPage extends Stage {
 	MenuController menuController = new MenuController();
 	OrderController orderController = new OrderController();
 	
+	private User currentUser;
 	public CustomerPage() {
 		super(StageStyle.DECORATED);
+		this.currentUser = UserSession.getInstance().getCurrentUser();
 		root = new BorderPane();
 		Scene scene = new Scene(root,1200,600);
 		this.setScene(scene);

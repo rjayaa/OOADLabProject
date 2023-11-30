@@ -1,7 +1,5 @@
 package Login;
 
-import java.util.Random;
-
 import Controller.UserController;
 import Customer.CustomerPage;
 import Model.User;
@@ -19,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import util.UserSession;
 
 public class LoginView extends Stage {
 	private Scene scene;
@@ -69,9 +68,16 @@ public class LoginView extends Stage {
 						txtPassword.clear();
 						
 						/* logic bwt simpen current customer */
-						
+						User loggedInUser = usercontroller.getUserByEmail(email);
+						// save current user to usersessionn singleton
+						UserSession.getInstance().setCurrentUser(loggedInUser);
 						CustomerPage cp = new CustomerPage();
 						cp.show();
+						
+						
+						
+						
+						
 						Stage stg = (Stage) btnLogin.getScene().getWindow();
 						stg.close();
 						

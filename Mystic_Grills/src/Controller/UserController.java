@@ -70,6 +70,29 @@ public class UserController {
 		}
 		
 		return true;
-		
+	}
+	
+	public User getUserByEmail(String email) {
+		User user = null;
+		String query = "SELECT * FROM user WHERE userEmail = ?";
+		 try (Connection connection = Singleton.getInstance().getConnection();
+	             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+	            preparedStatement.setString(1, email);
+	            ResultSet resultSet = preparedStatement.executeQuery();
+
+	            if (resultSet.next()) {
+	                String userId = resultSet.getString("userId");
+	                String userRole = resultSet.getString("userRole");
+	                String userName = resultSet.getString("userName");
+	                String userEmail = resultSet.getString("userEmail");
+	                String userPassword = resultSet.getString("userPassword");
+
+	                user = new User(userId, userRole, userName, userEmail, userPassword);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	            // Handle exception (log or throw)
+	        }
+		 return user;
 	}
 }

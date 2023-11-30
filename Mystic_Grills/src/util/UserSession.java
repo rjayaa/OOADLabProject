@@ -1,21 +1,32 @@
 package util;
 
-import java.util.Set;
+import Model.User;
 
 public class UserSession {
-	private static UserSession Instance;
+	private static UserSession instance;
+	private User currentUser;
 	
-	private String userId;
-	private Set<String> priv;
+	private UserSession() {
+		
+	}
 	
+	public static UserSession getInstance() {
+		if(instance == null) {
+			instance = new UserSession();
+		}
+		return instance;
+	}
 	
-	public UserSession(String userId, Set<String> priv) {
-		this.userId = userId;
-		this.priv = priv;
+	public User getCurrentUser() {
+		return currentUser;
 	}
 	
 	
-//	public static UserSession getInstace(String userId,Set<String> priv )
+	public void setCurrentUser(User user) {
+		this.currentUser = user;
+	}
+	
+	
 	
 	
 	
