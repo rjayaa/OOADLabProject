@@ -17,8 +17,6 @@
             "mainClass": "Main.Main",
             "projectName": "Mystic_Grills",
             "vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-17.0.7\\lib\" --add-modules javafx.controls,javafx.fxml"
-
-
         }
     ]
 }
