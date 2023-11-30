@@ -125,14 +125,34 @@ public class CustomerPage extends Stage {
 			{
 				quantityLbl = new Label("Quantity : ");
 				addButton.setOnAction(e -> {
+//					setGraphic(quantityInput);
 					FoodItem curr = getTableView().getItems().get(getIndex());
 					orderCart.add(curr);
-					int qty = Integer.parseInt(quantityInput.getText());
-					orderQuantity.add(qty);
-					submitOrder();
+					QuantityInput qi = new QuantityInput(curr);
+					qi.show();
 				});
 				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
 			}
+			
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+				
+				if(empty || getIndex() < 0 || getIndex() > menuItemsTable.getItems().size()) {
+					setGraphic(null);
+					return;
+				}
+				
+				setGraphic(addButton);
+			}
+			
+//			private void inputQty() {
+//				FoodItem curr = getTableView().getItems().get(getIndex());
+//				orderCart.add(curr);
+//				int qty = Integer.parseInt(quantityInput.getText());
+//				orderQuantity.add(qty);
+//				submitOrder();
+//			}
+			
 		});
 //		
 		menuItemsTable.getColumns().add(nameColumn);
@@ -142,6 +162,8 @@ public class CustomerPage extends Stage {
 		
 		return menuItemsTable;
 	}
+	
+	
 	
 	private void submitOrder() {
 		Button submit = new Button("Proceed Order");
