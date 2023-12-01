@@ -50,8 +50,7 @@ public class CustomerPage extends Stage {
 		
 		menuBar = new MenuBar();
 		
-//		Menu menu1 = new Menu("Menu");
-		Menu menu1 = new Menu(currentUser.getUsername());
+		Menu menu1 = new Menu("Menu");
 		MenuItem mItem = new MenuItem("Menu");
 		mItem.setOnAction(e ->{
 			showMenuList();
