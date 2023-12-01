@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import Model.User;
+
 public class Singleton {
 	private static Singleton instance = null;
 	private Connection connection;
-	
+	private User currentUser;
 	private Singleton() {
 		connectToDatabase();
 	}
@@ -43,5 +45,13 @@ public class Singleton {
 			throw new RuntimeException("Error checking connection status", e);
 		}
 		return connection;
+	}
+	
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	
+	public void setCurrentUser(User user) {
+		this.currentUser = user;
 	}
 }

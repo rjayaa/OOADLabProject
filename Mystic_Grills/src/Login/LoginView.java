@@ -2,6 +2,7 @@ package Login;
 
 import Controller.UserController;
 import Customer.CustomerPage;
+import DBConnection.Singleton;
 import Model.User;
 import Signup.SignupView;
 import javafx.event.ActionEvent;
@@ -17,7 +18,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import util.UserSession;
 
 public class LoginView extends Stage {
 	private Scene scene;
@@ -69,8 +69,9 @@ public class LoginView extends Stage {
 						
 						/* logic bwt simpen current customer */
 						User loggedInUser = usercontroller.getUserByEmail(email);
-						// save current user to usersession singleton	
-						UserSession.getInstance().setCurrentUser(loggedInUser);
+						// save current user to usersession singleton
+//						UserSession.getInstance().setCurrentUser(loggedInUser);
+						Singleton.getInstance().setCurrentUser(loggedInUser);
 						CustomerPage cp = new CustomerPage();
 						cp.show();
 						

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Controller.MenuController;
 import Controller.OrderController;
+import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
@@ -27,7 +28,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import util.UserSession;
+
 
 public class CustomerPage extends Stage {
 	
@@ -42,14 +43,15 @@ public class CustomerPage extends Stage {
 	private User currentUser;
 	public CustomerPage() {
 		super(StageStyle.DECORATED);
-		this.currentUser = UserSession.getInstance().getCurrentUser();
+		this.currentUser = Singleton.getInstance().getCurrentUser();
 		root = new BorderPane();
 		Scene scene = new Scene(root,1200,600);
 		this.setScene(scene);
 		
 		menuBar = new MenuBar();
 		
-		Menu menu1 = new Menu("Menu");
+//		Menu menu1 = new Menu("Menu");
+		Menu menu1 = new Menu(currentUser.getUsername());
 		MenuItem mItem = new MenuItem("Menu");
 		mItem.setOnAction(e ->{
 			showMenuList();
