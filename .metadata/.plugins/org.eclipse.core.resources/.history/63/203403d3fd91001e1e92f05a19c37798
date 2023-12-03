@@ -60,7 +60,7 @@ public class CustomerPage extends Stage {
 		mItem.setOnAction(e ->{
 			showMenuList();
 		});
-//		showMenuList();
+		showMenuList();
 		menu1.getItems().addAll(mItem);
 
 		Menu menu2 = new Menu("My Orders");
