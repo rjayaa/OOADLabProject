@@ -8,7 +8,12 @@ import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
+<<<<<<< HEAD
 import Model.User;
+=======
+import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
+>>>>>>> 01de8486aa26ed335f5c3e8e8de9937d38ab9cd3
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -100,16 +105,19 @@ public class CustomerPage extends Stage {
 		contentArea.getChildren().addAll(titleLabel);
 		
 		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
+		TableView<FoodItem> cartItemsTable = createCartItemsTable(orderCart, orderQuantity);
 		loadMenuItemsData(menuItemsTable);
 		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		cartItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(menuItemsTable);
+		contentArea.getChildren().addAll(cartItemsTable);
 	}
 	
 	private TableView<FoodItem> createMenuItemsTable(){
 		TableView<FoodItem> menuItemsTable = new TableView<>();
 		
 		TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));	
 		
 		TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemName"));
@@ -132,9 +140,15 @@ public class CustomerPage extends Stage {
 				addButton.setOnAction(e -> {
 //					setGraphic(quantityInput);
 					FoodItem curr = getTableView().getItems().get(getIndex());
-					orderCart.add(curr);
 					QuantityInput qi = new QuantityInput(curr);
-					qi.show();
+					qi.showAndWait();
+					
+					if(qi.isBtnPressed()) {
+						orderCart.add(curr);
+						orderQuantity.add(qi.getQty());
+						reloadPage();
+					}
+					
 				});
 				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
 			}
@@ -149,17 +163,8 @@ public class CustomerPage extends Stage {
 				
 				setGraphic(addButton);
 			}
-			
-//			private void inputQty() {
-//				FoodItem curr = getTableView().getItems().get(getIndex());
-//				orderCart.add(curr);
-//				int qty = Integer.parseInt(quantityInput.getText());
-//				orderQuantity.add(qty);
-//				submitOrder();
-//			}
-			
 		});
-//		
+
 		menuItemsTable.getColumns().add(nameColumn);
 		menuItemsTable.getColumns().add(descriptionColumn);
 		menuItemsTable.getColumns().add(priceColumn);
@@ -168,7 +173,36 @@ public class CustomerPage extends Stage {
 		return menuItemsTable;
 	}
 	
-	
+	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
+	    TableView<FoodItem> menuItemsTable = new TableView<>();
+
+	    TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+	    idColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemID"));
+
+	    TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
+	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemName"));
+
+	    TableColumn<FoodItem, String> descriptionColumn = new TableColumn<>("Menu Description");
+	    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemDescription"));
+
+	    TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
+	    priceColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemPrice"));
+
+	    TableColumn<FoodItem, Integer> qtyColumn = new TableColumn<>("Quantity");
+	    qtyColumn.setCellValueFactory(cellData -> {
+            int index = foodList.indexOf(cellData.getValue());
+            return index >= 0 ? new SimpleIntegerProperty(orderQuantity.get(index)).asObject() : null;
+        });
+
+	    menuItemsTable.getColumns().add(nameColumn);
+	    menuItemsTable.getColumns().add(descriptionColumn);
+	    menuItemsTable.getColumns().add(priceColumn);
+	    menuItemsTable.getColumns().add(qtyColumn);
+
+	    menuItemsTable.getItems().addAll(foodList);
+
+	    return menuItemsTable;
+	}
 	
 	private void submitOrder() {
 		Button submit = new Button("Proceed Order");
@@ -363,5 +397,11 @@ public class CustomerPage extends Stage {
 	}
 	private void showCustomerProfile() {
 		contentArea.getChildren().clear();
+	}
+	
+	private void reloadPage() {
+	    Platform.runLater(() -> {
+	        showMenuList();
+	    });
 	}
 }
