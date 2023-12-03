@@ -84,6 +84,9 @@ public class CustomerPage extends Stage {
 
 		Label lblMenu = new Label("Menu");
 		lblMenu.setFont(Font.font("Arial", FontWeight.BOLD, 16));
+		
+		
+		
 		// TABLE MENU
 		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
 		loadMenuItemsData(menuItemsTable);
