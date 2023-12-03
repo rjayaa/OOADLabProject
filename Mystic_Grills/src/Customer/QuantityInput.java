@@ -33,7 +33,10 @@ public class QuantityInput extends Stage {
 	private Label lblFoodName, lblQty;
 	private TextField txtFoodName, txtQty;
 	private Button btnOrder, btnCancel;
-
+	
+	private int qty = 0;
+	private boolean btnPressed = false;
+	
 	public QuantityInput(FoodItem curr) {
 		this.setTitle("Input Quantity");
 		this.initStyle(StageStyle.DECORATED);
@@ -58,6 +61,11 @@ public class QuantityInput extends Stage {
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				try {
+					qty = Integer.parseInt(txtQty.getText());
+					if(qty > 0) {
+						btnPressed = true;
+						close();
+					}
 					
 				}catch(NumberFormatException e) {
 					
@@ -74,6 +82,13 @@ public class QuantityInput extends Stage {
 		buttonBox.setAlignment(Pos.CENTER);
 		contentArea.getChildren().addAll(lblFoodName, txtFoodName, lblQty, txtQty, buttonBox);
 		root.setCenter(contentArea);
-		
+	}
+	
+	public int getQty() {
+		return qty;
+	}
+	
+	public boolean isBtnPressed() {
+		return btnPressed;
 	}
 }

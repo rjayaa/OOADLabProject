@@ -8,7 +8,12 @@ import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
+
 import Model.User;
+
+import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -53,12 +58,23 @@ public class CustomerPage extends Stage {
 		this.setScene(scene);
 
 		menuBar = new MenuBar();
+<<<<<<< HEAD
 		Menu menu1 = new Menu("My Menu");
 		MenuItem myMenu = new MenuItem("My Menu");
 		myMenu.setOnAction(e -> {
 			showMenuList();
 		});
 		menu1.getItems().add(myMenu);
+=======
+		
+		Menu menu1 = new Menu("Menu");
+		MenuItem mItem = new MenuItem("Menu");
+		mItem.setOnAction(e ->{
+			showMenuList();
+		});
+//		showMenuList();
+		menu1.getItems().addAll(mItem);
+>>>>>>> main
 
 		Menu menu2 = new Menu("My Orders");
 		MenuItem moItem = new Menu("My Orders");
@@ -111,17 +127,25 @@ public class CustomerPage extends Stage {
 		contentArea.getChildren().addAll(titleLabel);
 
 		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
+		TableView<FoodItem> cartItemsTable = createCartItemsTable(orderCart, orderQuantity);
 		loadMenuItemsData(menuItemsTable);
 		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		cartItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(menuItemsTable);
+		contentArea.getChildren().addAll(cartItemsTable);
 	}
 
 	private TableView<FoodItem> createMenuItemsTable() {
 		TableView<FoodItem> menuItemsTable = new TableView<>();
 
 		TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+<<<<<<< HEAD
 		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));
 
+=======
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));	
+		
+>>>>>>> main
 		TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemName"));
 
@@ -144,9 +168,15 @@ public class CustomerPage extends Stage {
 				addButton.setOnAction(e -> {
 //					setGraphic(quantityInput);
 					FoodItem curr = getTableView().getItems().get(getIndex());
-					orderCart.add(curr);
 					QuantityInput qi = new QuantityInput(curr);
-					qi.show();
+					qi.showAndWait();
+					
+					if(qi.isBtnPressed()) {
+						orderCart.add(curr);
+						orderQuantity.add(qi.getQty());
+						reloadPage();
+					}
+					
 				});
 				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
 			}
@@ -161,6 +191,7 @@ public class CustomerPage extends Stage {
 
 				setGraphic(addButton);
 			}
+<<<<<<< HEAD
 
 //			private void inputQty() {
 //				FoodItem curr = getTableView().getItems().get(getIndex());
@@ -170,8 +201,10 @@ public class CustomerPage extends Stage {
 //				submitOrder();
 //			}
 
+=======
+>>>>>>> main
 		});
-//		
+
 		menuItemsTable.getColumns().add(nameColumn);
 		menuItemsTable.getColumns().add(descriptionColumn);
 		menuItemsTable.getColumns().add(priceColumn);
@@ -179,7 +212,42 @@ public class CustomerPage extends Stage {
 
 		return menuItemsTable;
 	}
+<<<<<<< HEAD
 
+=======
+	
+	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
+	    TableView<FoodItem> menuItemsTable = new TableView<>();
+
+	    TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+	    idColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemID"));
+
+	    TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
+	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemName"));
+
+	    TableColumn<FoodItem, String> descriptionColumn = new TableColumn<>("Menu Description");
+	    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemDescription"));
+
+	    TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
+	    priceColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemPrice"));
+
+	    TableColumn<FoodItem, Integer> qtyColumn = new TableColumn<>("Quantity");
+	    qtyColumn.setCellValueFactory(cellData -> {
+            int index = foodList.indexOf(cellData.getValue());
+            return index >= 0 ? new SimpleIntegerProperty(orderQuantity.get(index)).asObject() : null;
+        });
+
+	    menuItemsTable.getColumns().add(nameColumn);
+	    menuItemsTable.getColumns().add(descriptionColumn);
+	    menuItemsTable.getColumns().add(priceColumn);
+	    menuItemsTable.getColumns().add(qtyColumn);
+
+	    menuItemsTable.getItems().addAll(foodList);
+
+	    return menuItemsTable;
+	}
+	
+>>>>>>> main
 	private void submitOrder() {
 		Button submit = new Button("Proceed Order");
 		contentArea.getChildren().addAll(submit);
@@ -375,5 +443,11 @@ public class CustomerPage extends Stage {
 
 	private void showCustomerProfile() {
 		contentArea.getChildren().clear();
+	}
+	
+	private void reloadPage() {
+	    Platform.runLater(() -> {
+	        showMenuList();
+	    });
 	}
 }
