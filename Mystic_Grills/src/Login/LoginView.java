@@ -70,7 +70,6 @@ public class LoginView extends Stage {
 						/* logic bwt simpen current customer */
 						User loggedInUser = usercontroller.getUserByEmail(email);
 						// save current user to usersession singleton
-//						UserSession.getInstance().setCurrentUser(loggedInUser);
 						Singleton.getInstance().setCurrentUser(loggedInUser);
 						CustomerPage cp = new CustomerPage();
 						cp.show();
