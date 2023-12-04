@@ -1,9 +1,12 @@
 package View.Customer;
 
+
+
 import java.util.ArrayList;
 
 import Controller.Food.FoodController;
 import Controller.Order.OrderController;
+import Customer.OrderInformationInput;
 import DBConnection.Singleton;
 import Model.FoodItem.FoodItem;
 import Model.Order.Order;
@@ -58,7 +61,6 @@ public class CustomerPage extends Stage {
 		mItem.setOnAction(e ->{
 			showMenuList();
 		});
-//		showMenuList();
 		menu1.getItems().addAll(mItem);
 
 		Menu menu2 = new Menu("My Orders");
@@ -110,6 +112,10 @@ public class CustomerPage extends Stage {
 		cartItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		contentArea.getChildren().addAll(menuItemsTable);
 		contentArea.getChildren().addAll(cartItemsTable);
+		
+		if(!cartItemsTable.getItems().isEmpty()) {
+			submitOrder();
+		}
 	}
 	
 	private TableView<FoodItem> createMenuItemsTable(){
@@ -204,12 +210,13 @@ public class CustomerPage extends Stage {
 	}
 	
 	private void submitOrder() {
-		Button submit = new Button("Proceed Order");
-		contentArea.getChildren().addAll(submit);
+		Button submitBtn = new Button("Proceed Order");
+		contentArea.getChildren().addAll(submitBtn);
 		
-		submit.setOnAction(e -> {
-			showOrderForm();
-		});
+		submitBtn.setOnAction(e -> {
+			OrderInformationInput inputInfo = new OrderInformationInput(orderCart, orderQuantity);
+			inputInfo.showAndWait();
+		});	
 	}
 	
 	private void showOrderForm() {

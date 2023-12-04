@@ -1,19 +1,6 @@
-/Login/
-/Main/
-/Customer/
-<<<<<<< HEAD
-/DBConnection/
-/Login/
-/Main/
-/Model/
-/Signup/
-/Admin/
-/Cashier/
-=======
-/Admin/
-/Cashier/
 /Controller/
+/Customer/
 /DBConnection/
+/Main/
 /Model/
-/Signup/
->>>>>>> main
+/View/

@@ -2,10 +2,8 @@ package Customer;
 
 import java.util.ArrayList;
 
-import Controller.OrderController;
-import Model.FoodItem;
-import Model.Order;
-import Model.OrderDetails;
+import Controller.Order.OrderController;
+import Model.FoodItem.FoodItem;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,7 +19,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
