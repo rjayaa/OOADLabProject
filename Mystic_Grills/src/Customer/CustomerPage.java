@@ -4,11 +4,16 @@ import java.util.ArrayList;
 
 import Controller.MenuController;
 import Controller.OrderController;
+import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
+
+import Model.User;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -29,6 +34,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+
 public class CustomerPage extends Stage {
 	
 	private BorderPane root;
@@ -39,8 +45,10 @@ public class CustomerPage extends Stage {
 	MenuController menuController = new MenuController();
 	OrderController orderController = new OrderController();
 	
+	private User currentUser;
 	public CustomerPage() {
 		super(StageStyle.DECORATED);
+		this.currentUser = Singleton.getInstance().getCurrentUser();
 		root = new BorderPane();
 		Scene scene = new Scene(root,1200,600);
 		this.setScene(scene);

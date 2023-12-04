@@ -1,5 +1,17 @@
 /Controller/
 /Customer/
+<<<<<<< HEAD
+<<<<<<< HEAD
+/Model/
+/Signup/
+/util/
+=======
+=======
 /DBConnection/
 /Login/
+>>>>>>> 01de8486aa26ed335f5c3e8e8de9937d38ab9cd3
 /Main/
+>>>>>>> cloud
+/Controller/
+/Login/
+/DBConnection/

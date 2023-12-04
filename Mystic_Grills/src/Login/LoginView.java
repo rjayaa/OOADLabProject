@@ -1,9 +1,8 @@
 package Login;
 
-import java.util.Random;
-
 import Controller.UserController;
 import Customer.CustomerPage;
+import DBConnection.Singleton;
 import Model.User;
 import Signup.SignupView;
 import javafx.event.ActionEvent;
@@ -69,9 +68,12 @@ public class LoginView extends Stage {
 						txtPassword.clear();
 						
 						/* logic bwt simpen current customer */
-						
+						User loggedInUser = usercontroller.getUserByEmail(email);
+						// save current user to usersession singleton
+						Singleton.getInstance().setCurrentUser(loggedInUser);
 						CustomerPage cp = new CustomerPage();
 						cp.show();
+						
 						Stage stg = (Stage) btnLogin.getScene().getWindow();
 						stg.close();
 						
