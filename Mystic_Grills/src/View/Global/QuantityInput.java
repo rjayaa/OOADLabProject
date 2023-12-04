@@ -1,8 +1,8 @@
-package Customer;
+package View.Global;
 
 import java.util.Random;
 
-import Controller.UserController;
+import Controller.User.UserController;
 import Model.FoodItem;
 import Model.User;
 import javafx.event.ActionEvent;

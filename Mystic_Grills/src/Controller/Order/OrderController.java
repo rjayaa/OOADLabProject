@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Order;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

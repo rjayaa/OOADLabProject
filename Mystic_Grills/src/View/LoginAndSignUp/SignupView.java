@@ -1,8 +1,8 @@
-package Signup;
+package View.LoginAndSignUp;
 
 import java.util.Random;
 
-import Controller.UserController;
+import Controller.User.UserController;
 import Model.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

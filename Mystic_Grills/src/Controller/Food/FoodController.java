@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Food;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import DBConnection.Singleton;
 import Model.FoodItem;
 
-public class MenuController {
+public class FoodController {
 
 	public ArrayList<FoodItem> showMenuItems() {
 		ArrayList<FoodItem> foodItem = new ArrayList<>();

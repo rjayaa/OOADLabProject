@@ -1,19 +1,17 @@
-package Customer;
+package View.Customer;
 
 import java.util.ArrayList;
 
-import Controller.MenuController;
-import Controller.OrderController;
+import Controller.Food.FoodController;
+import Controller.Order.OrderController;
 import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
-
 import Model.User;
-
+import View.Global.QuantityInput;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,7 +40,7 @@ public class CustomerPage extends Stage {
 	private MenuBar menuBar;
 	private ArrayList<FoodItem> orderCart = new ArrayList<>();
 	private ArrayList<Integer> orderQuantity = new ArrayList<>();
-	MenuController menuController = new MenuController();
+	FoodController menuController = new FoodController();
 	OrderController orderController = new OrderController();
 	
 	private User currentUser;

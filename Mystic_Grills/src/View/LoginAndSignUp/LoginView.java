@@ -1,10 +1,9 @@
-package Login;
+package View.LoginAndSignUp;
 
-import Controller.UserController;
-import Customer.CustomerPage;
+import Controller.User.UserController;
 import DBConnection.Singleton;
 import Model.User;
-import Signup.SignupView;
+import View.Customer.CustomerPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
