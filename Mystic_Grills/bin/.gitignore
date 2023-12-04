@@ -1,9 +1,6 @@
-/Login/
-/Main/
-/Customer/
-/Admin/
-/Cashier/
 /Controller/
+/Customer/
 /DBConnection/
+/Main/
 /Model/
-/Signup/
+/View/

@@ -1,0 +1,19 @@
+package Customer;
+
+import DBConnection.Singleton;
+import Model.User;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.StageStyle;
+
+public class CustomerView {
+	private BorderPane root;
+	private User currentUser;
+	
+	public CustomerView() {
+		super(StageStyle.DECORATED);
+		this.currentUser = Singleton.getInstance().getCurrentUser();
+		
+		
+	}
+
+}

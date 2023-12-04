@@ -1,0 +1,71 @@
+package Customer;
+
+import DBConnection.Singleton;
+import Model.User;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class CustomerView extends Stage {
+	private BorderPane root;
+	private User currentUser;
+	private Scene scene;
+	private MenuBar menuBar;
+	private Button btnExit, btnOrder, btnViewCart;
+	private MenuBar menubar;
+	private double btnWidth = 100;
+	private double btnHeight = 30;
+	public CustomerView() {
+	    super(StageStyle.DECORATED);
+	    this.currentUser = Singleton.getInstance().getCurrentUser();
+	    
+	    root = new BorderPane();
+	    scene = new Scene(root, 800, 600);
+	    this.setTitle("Mystic Grills");
+	    this.setScene(scene);
+	    
+	    menuBar = new MenuBar();
+	    
+	    Menu menu = new Menu("Home");
+	    MenuItem myMenu = new MenuItem("test");
+	    menu.getItems().add(myMenu);
+	    btnOrder = new Button("Order");
+	    btnViewCart = new Button("View Cart");
+	    btnExit = new Button("Exit");
+	    
+	    btnOrder.setPrefSize(btnWidth, btnHeight);
+	    btnViewCart.setPrefSize(btnWidth, btnHeight);
+	    btnExit.setPrefSize(btnWidth, btnHeight);
+	    
+	    HBox hboxButtons1 = new HBox(10); 
+	    hboxButtons1.getChildren().addAll(btnOrder, btnViewCart);
+	    hboxButtons1.setAlignment(Pos.CENTER);
+	    
+	    
+	    HBox hboxButtons2 = new HBox(10);
+	    hboxButtons2.getChildren().add(btnExit);
+	    hboxButtons2.setAlignment(Pos.CENTER);
+	    
+	    
+	    VBox vboxButtons = new VBox(10); 
+	    vboxButtons.getChildren().addAll(hboxButtons1, hboxButtons2);
+	    vboxButtons.setAlignment(Pos.CENTER);
+	    
+	    menubar.getMenus().addAll(menu);
+	    menubar.setPadding(new Insets(10));
+	    root.setTop(menubar);
+	    root.setCenter(vboxButtons);
+	}
+
+
+
+}

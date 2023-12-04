@@ -1,0 +1,9 @@
+package Customer;
+
+public class CustomerView {
+
+	public CustomerView() {
+		
+	}
+
+}

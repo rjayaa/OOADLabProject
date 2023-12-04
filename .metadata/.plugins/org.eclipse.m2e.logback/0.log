@@ -68,4 +68,7 @@ java.io.FileNotFoundException: C:\Users\rjayaa\Documents\OOADLabProject\.metadat
 2023-12-04 18:32:57,869 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
 2023-12-04 18:36:18,562 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
 >>>>>>> main
+<<<<<<< HEAD
 2023-12-04 19:26:32,762 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+=======
+>>>>>>> staging

@@ -1,0 +1,26 @@
+package Customer;
+
+import DBConnection.Singleton;
+import Model.User;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class CustomerView extends Stage {
+	private BorderPane root;
+	private User currentUser;
+	private Scene scene;
+	
+	public CustomerView() {
+		super(StageStyle.DECORATED);
+		this.currentUser = Singleton.getInstance().getCurrentUser();
+		
+		root = new BorderPane();
+		scene = new Scene(root, 800, 600);
+		this.setTitle("Mystic Grills");
+		this.setScene(scene);
+		
+	}
+
+}

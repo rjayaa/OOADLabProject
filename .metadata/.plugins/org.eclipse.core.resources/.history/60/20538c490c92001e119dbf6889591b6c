@@ -1,0 +1,60 @@
+package Customer;
+
+import DBConnection.Singleton;
+import Model.User;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class CustomerView extends Stage {
+	private BorderPane root;
+	private User currentUser;
+	private Scene scene;
+	private MenuBar menuBar;
+	private Button btnExit, btnOrder, btnViewCart;
+	public CustomerView() {
+	    super(StageStyle.DECORATED);
+	    this.currentUser = Singleton.getInstance().getCurrentUser();
+	    
+	    root = new BorderPane();
+	    scene = new Scene(root, 800, 600);
+	    this.setTitle("Mystic Grills");
+	    this.setScene(scene);
+	    
+	    menuBar = new MenuBar();
+	    
+	    Menu menu1 = new Menu("Home");
+	    
+	    // Membuat tombol-tombol
+	    btnOrder = new Button("Order");
+	    btnViewCart = new Button("View Cart");
+	    btnExit = new Button("Exit");
+	    
+	    // Membuat HBox untuk btnOrder dan btnViewCart
+	    HBox hboxButtons1 = new HBox(10); // Mengatur jarak antara tombol-tombol
+	    hboxButtons1.getChildren().addAll(btnOrder, btnViewCart);
+	    hboxButtons1.setAlignment(Pos.CENTER);
+	    
+	    // Membuat HBox untuk btnExit
+	    HBox hboxButtons2 = new HBox(10);
+	    hboxButtons2.getChildren().add(btnExit);
+	    hboxButtons2.setAlignment(Pos.CENTER);
+	    
+	    // Membuat VBox untuk menempatkan hboxButtons1 dan hboxButtons2 secara vertikal
+	    VBox vboxButtons = new VBox(10); // Mengatur jarak antara tombol-tombol
+	    vboxButtons.getChildren().addAll(hboxButtons1, hboxButtons2);
+	    vboxButtons.setAlignment(Pos.CENTER);
+	    
+	    // Menempatkan VBox dengan tombol-tombol di tengah BorderPane
+	    root.setCenter(vboxButtons);
+	}
+
+
+
+}
