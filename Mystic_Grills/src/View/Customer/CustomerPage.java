@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 import Controller.Food.FoodController;
 import Controller.Order.OrderController;
-import Customer.OrderInformationInput;
+import Controller.Order.OrderInformationInput;
 import DBConnection.Singleton;
 import Model.FoodItem.FoodItem;
 import Model.Order.Order;
