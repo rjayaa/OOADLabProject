@@ -1,0 +1,49 @@
+package Customer;
+
+import DBConnection.Singleton;
+import Model.User;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+public class CustomerView extends Stage {
+	private BorderPane root;
+	private User currentUser;
+	private Scene scene;
+	private MenuBar menuBar;
+	private Button btnExit, btnOrder, btnViewCart;
+	public CustomerView() {
+	    super(StageStyle.DECORATED);
+	    this.currentUser = Singleton.getInstance().getCurrentUser();
+	    
+	    root = new BorderPane();
+	    scene = new Scene(root, 800, 600);
+	    this.setTitle("Mystic Grills");
+	    this.setScene(scene);
+	    
+	    menuBar = new MenuBar();
+	    
+	    Menu menu1 = new Menu("Home");
+	    
+	    // Membuat tombol-tombol
+	    btnOrder = new Button("Order");
+	    btnViewCart = new Button("View Cart");
+	    btnExit = new Button("Exit");
+	    
+	    // Membuat VBox untuk menempatkan tombol-tombol di tengah
+	    VBox centerBox = new VBox(10); // Mengatur jarak antara tombol-tombol
+	    
+	    // Menambahkan tombol-tombol ke VBox
+	    centerBox.getChildren().addAll(btnOrder, btnViewCart, btnExit);
+	    centerBox.setAlignment(Pos.CENTER); // Menengahkan VBox
+	    
+	    // Menempatkan VBox dengan tombol-tombol di tengah BorderPane
+	    root.setCenter(centerBox);
+	}
+
+
+}
