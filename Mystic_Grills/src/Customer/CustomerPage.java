@@ -12,6 +12,7 @@ import Model.OrderDetails;
 import Model.User;
 
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import javafx.geometry.Insets;
@@ -42,6 +43,7 @@ public class CustomerPage extends Stage {
 	private BorderPane root;
 	private VBox contentArea;
 	private MenuBar menuBar;
+	private Button btnClearOrder,btnViewOrder;
 	private ArrayList<FoodItem> orderCart = new ArrayList<>();
 	private ArrayList<Integer> orderQuantity = new ArrayList<>();
 	private MenuController menuController = new MenuController();
@@ -58,23 +60,23 @@ public class CustomerPage extends Stage {
 		this.setScene(scene);
 
 		menuBar = new MenuBar();
-<<<<<<< HEAD
+
 		Menu menu1 = new Menu("My Menu");
 		MenuItem myMenu = new MenuItem("My Menu");
 		myMenu.setOnAction(e -> {
 			showMenuList();
 		});
 		menu1.getItems().add(myMenu);
-=======
+
 		
-		Menu menu1 = new Menu("Menu");
+		Menu menu11= new Menu("Menu");
 		MenuItem mItem = new MenuItem("Menu");
 		mItem.setOnAction(e ->{
 			showMenuList();
 		});
 //		showMenuList();
-		menu1.getItems().addAll(mItem);
->>>>>>> main
+		menu11.getItems().addAll(mItem);
+
 
 		Menu menu2 = new Menu("My Orders");
 		MenuItem moItem = new Menu("My Orders");
@@ -90,7 +92,7 @@ public class CustomerPage extends Stage {
 		});
 		menu3.getItems().addAll(pItem);
 
-		menuBar.getMenus().addAll(menu1, menu2, menu3);
+		menuBar.getMenus().addAll(menu11, menu2, menu3);
 		menuBar.setPadding(new Insets(10));
 
 		contentArea = new VBox(20);
@@ -103,15 +105,19 @@ public class CustomerPage extends Stage {
 		
 		
 		
+		
 		// TABLE MENU
 		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
 		loadMenuItemsData(menuItemsTable);
 		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		double rowHeight = 45; 
+		menuItemsTable.prefHeightProperty().bind(Bindings.size(menuItemsTable.getItems()).multiply(rowHeight));
 		contentArea.setAlignment(Pos.CENTER);
 		contentArea.getChildren().addAll(lblMenu, menuItemsTable);
-
-		root.setTop(menuBar);
-		root.setCenter(contentArea);
+		
+		
+//		root.setTop(menuBar);
+		root.setTop(contentArea);
 
 	}
 
@@ -139,13 +145,10 @@ public class CustomerPage extends Stage {
 		TableView<FoodItem> menuItemsTable = new TableView<>();
 
 		TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
-<<<<<<< HEAD
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));
 
-=======
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));	
-		
->>>>>>> main
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemID"));
+			
+
 		TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
 		nameColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemName"));
 
@@ -191,7 +194,7 @@ public class CustomerPage extends Stage {
 
 				setGraphic(addButton);
 			}
-<<<<<<< HEAD
+
 
 //			private void inputQty() {
 //				FoodItem curr = getTableView().getItems().get(getIndex());
@@ -201,10 +204,9 @@ public class CustomerPage extends Stage {
 //				submitOrder();
 //			}
 
-=======
->>>>>>> main
-		});
 
+		});
+		menuItemsTable.getColumns().add(idColumn);
 		menuItemsTable.getColumns().add(nameColumn);
 		menuItemsTable.getColumns().add(descriptionColumn);
 		menuItemsTable.getColumns().add(priceColumn);
@@ -212,10 +214,7 @@ public class CustomerPage extends Stage {
 
 		return menuItemsTable;
 	}
-<<<<<<< HEAD
 
-=======
-	
 	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
 	    TableView<FoodItem> menuItemsTable = new TableView<>();
 
@@ -247,7 +246,7 @@ public class CustomerPage extends Stage {
 	    return menuItemsTable;
 	}
 	
->>>>>>> main
+
 	private void submitOrder() {
 		Button submit = new Button("Proceed Order");
 		contentArea.getChildren().addAll(submit);

@@ -1,7 +1,6 @@
 package Main;
 
-import Customer.CustomerPage;
-import Login.LoginView;
+import Customer.CustomerView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -17,7 +16,8 @@ public class Main extends Application {
 
 	public void initScene() {
 //		LoginView lg = new LoginView();
-		CustomerPage lg = new CustomerPage();
+		CustomerView lg = new CustomerView();
+//		CustomerPage lg = new CustomerPage();
 		lg.show();
 	}
 

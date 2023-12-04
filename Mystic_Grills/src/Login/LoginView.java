@@ -1,7 +1,7 @@
 package Login;
 
 import Controller.UserController;
-import Customer.CustomerPage;
+import Customer.CustomerView;
 import DBConnection.Singleton;
 import Model.User;
 import Signup.SignupView;
@@ -71,7 +71,7 @@ public class LoginView extends Stage {
 						User loggedInUser = usercontroller.getUserByEmail(email);
 						// save current user to usersession singleton
 						Singleton.getInstance().setCurrentUser(loggedInUser);
-						CustomerPage cp = new CustomerPage();
+						CustomerView cp = new CustomerView();
 						cp.show();
 						
 						Stage stg = (Stage) btnLogin.getScene().getWindow();
