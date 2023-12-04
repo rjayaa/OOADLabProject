@@ -8,4 +8,6 @@
     <fullyQualifiedTypeName name="model.SubmitBtn"/>
     <fullyQualifiedTypeName name="model.Component"/>
     <fullyQualifiedTypeName name="Iterator.Iterator"/>
+    <fullyQualifiedTypeName name="Model.Order.Order"/>
+    <fullyQualifiedTypeName name="Controller.Food.FoodController"/>
 </qualifiedTypeNameHistroy>
