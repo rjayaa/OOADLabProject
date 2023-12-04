@@ -3,8 +3,8 @@ package View.Global;
 import Controller.User.UserController;
 import DBConnection.Singleton;
 import Model.User.User;
+import View.Customer.CustomerLandingPage;
 import View.Customer.CustomerMenuPage;
-import View.Customer.CustomerPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -71,7 +71,7 @@ public class LoginView extends Stage {
 						User loggedInUser = usercontroller.getUserByEmail(email);
 						// save current user to usersession singleton
 						Singleton.getInstance().setCurrentUser(loggedInUser);
-						CustomerMenuPage lg = new CustomerMenuPage();
+						CustomerLandingPage lg = new CustomerLandingPage();
 //						CustomerPage cp = new CustomerPage();
 						lg.show();
 						

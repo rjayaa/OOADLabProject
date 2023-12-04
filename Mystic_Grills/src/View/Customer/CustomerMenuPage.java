@@ -1,13 +1,29 @@
 package View.Customer;
 
+import java.util.ArrayList;
+
+import Controller.Food.FoodController;
+import Controller.Order.OrderController;
+import Controller.Order.OrderInformationInput;
 import DBConnection.Singleton;
+import Model.FoodItem.FoodItem;
+import Model.Order.Order;
+import Model.OrderDetails.OrderDetails;
 import Model.User.User;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import View.Global.QuantityInput;
+import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,61 +33,336 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class CustomerMenuPage extends Stage {
+
 	private BorderPane root;
-	private Scene scene;
-	private Button btnOrder,btnViewCart,btnExit;
-	private Label lblWelcome;
+	private VBox contentArea;
+	private ArrayList<FoodItem> orderCart = new ArrayList<>();
+	private ArrayList<Integer> orderQuantity = new ArrayList<>();
+	FoodController menuController = new FoodController();
+	OrderController orderController = new OrderController();
+
+	private Label lblMenu, lblCart;
+
 	private User currentUser;
-	
+
 	public CustomerMenuPage() {
 		super(StageStyle.DECORATED);
-		// get user session
 		this.currentUser = Singleton.getInstance().getCurrentUser();
 		root = new BorderPane();
-		scene = new Scene(root,600,400);
-		this.setTitle("Mystic Grills");
+		Scene scene = new Scene(root, 800, 600);
 		this.setScene(scene);
-		
-		
-		btnOrder = new Button("Order Menu");
-		btnViewCart = new Button("View My Cart");
-		btnExit = new Button("Exit");
-		
-		lblWelcome = new Label("Welcome Mystic Grills!");
-		lblWelcome.setFont(Font.font("Arial", FontWeight.BOLD,20));
-		
-		btnOrder.setPrefSize(100, 50);
-		btnViewCart.setPrefSize(100, 50);
-		btnExit.setPrefSize(100, 50);
-		
-		btnOrder.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				// move to menucart
-				CustomerPage cp = new CustomerPage();
-				cp.show();
-				Stage stg = (Stage) btnOrder.getScene().getWindow();
-				stg.close();
+
+		contentArea = new VBox(40);
+		contentArea.setPadding(new Insets(10));
+
+		lblMenu = new Label("Our Menu!");
+		lblMenu.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		contentArea.setAlignment(Pos.CENTER);
+		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
+		loadMenuItemsData(menuItemsTable);
+		double rowHeight = 40;
+		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		menuItemsTable.prefHeightProperty().bind(Bindings.size(menuItemsTable.getItems()).multiply(rowHeight));
+		contentArea.getChildren().addAll(lblMenu, menuItemsTable);
+
+		root.setTop(contentArea);
+
+	}
+
+	private void loadMenuItemsData(TableView<FoodItem> menuItemsTable) {
+		ArrayList<FoodItem> menuItemList = menuController.showMenuItems();
+		menuItemsTable.getItems().setAll(menuItemList);
+	}
+
+	private void showMenuList() {
+		contentArea.getChildren().clear();
+		lblMenu = new Label("Our Menu!");
+		lblCart = new Label("Cart!");
+		lblMenu.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		lblCart.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+		TableView<FoodItem> menuItemsTable = createMenuItemsTable();
+		TableView<FoodItem> cartItemsTable = createCartItemsTable(orderCart, orderQuantity);
+		loadMenuItemsData(menuItemsTable);
+		double rowHeight = 40;
+		menuItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		menuItemsTable.prefHeightProperty().bind(Bindings.size(menuItemsTable.getItems()).multiply(rowHeight));
+		cartItemsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		cartItemsTable.prefHeightProperty().bind(Bindings.size(menuItemsTable.getItems()).multiply(rowHeight));
+		contentArea.getChildren().addAll(lblMenu,menuItemsTable);
+		contentArea.getChildren().addAll(cartItemsTable);
+
+		if (!cartItemsTable.getItems().isEmpty()) {
+			submitOrder();
+		}
+	}
+
+	private TableView<FoodItem> createMenuItemsTable() {
+		TableView<FoodItem> menuItemsTable = new TableView<>();
+
+		TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemID"));
+
+		TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemName"));
+
+		TableColumn<FoodItem, String> descriptionColumn = new TableColumn<>("Menu Description");
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemDescription"));
+
+		TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
+		priceColumn.setCellValueFactory(new PropertyValueFactory<>("MenuItemPrice"));
+
+		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button addButton = new Button("Add");
+
+			{
+				addButton.setOnAction(e -> {
+//					setGraphic(quantityInput);
+					FoodItem curr = getTableView().getItems().get(getIndex());
+					QuantityInput qi = new QuantityInput(curr);
+					qi.showAndWait();
+
+					if (qi.isBtnPressed()) {
+						orderCart.add(curr);
+						orderQuantity.add(qi.getQty());
+						reloadPage();
+					}
+
+				});
+			}
+
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+
+				if (empty || getIndex() < 0 || getIndex() > menuItemsTable.getItems().size()) {
+					setGraphic(null);
+					return;
+				}
+
+				setGraphic(addButton);
 			}
 		});
-		
-		HBox btnHbox1 = new HBox(10);
-		btnHbox1.getChildren().addAll(btnOrder, btnViewCart);
-		btnHbox1.setAlignment(Pos.CENTER);
 
-		HBox btnHbox2 = new HBox(10);
-		btnHbox2.getChildren().add(btnExit);
-		btnHbox2.setAlignment(Pos.CENTER);
+		menuItemsTable.getColumns().add(nameColumn);
+		menuItemsTable.getColumns().add(descriptionColumn);
+		menuItemsTable.getColumns().add(priceColumn);
+		menuItemsTable.getColumns().add(actionColumn);
 
-		VBox vboxButtons = new VBox(10);
-		vboxButtons.getChildren().addAll(lblWelcome,btnHbox1, btnHbox2);
-		vboxButtons.setAlignment(Pos.CENTER);
+		return menuItemsTable;
+	}
 
-	
-		root.setCenter(vboxButtons);
-		
-		
+	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
+		TableView<FoodItem> menuItemsTable = new TableView<>();
+
+		TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+		idColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemID"));
+
+		TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
+		nameColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemName"));
+
+		TableColumn<FoodItem, String> descriptionColumn = new TableColumn<>("Menu Description");
+		descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemDescription"));
+
+		TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
+		priceColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemPrice"));
+
+		TableColumn<FoodItem, Integer> qtyColumn = new TableColumn<>("Quantity");
+		qtyColumn.setCellValueFactory(cellData -> {
+			int index = foodList.indexOf(cellData.getValue());
+			return index >= 0 ? new SimpleIntegerProperty(orderQuantity.get(index)).asObject() : null;
+		});
+
+		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button deleteButton = new Button("Delete");
+
+			{
+				deleteButton.setOnAction(e -> {
+					int targetIndex = getTableRow().getIndex();
+					orderCart.remove(targetIndex);
+					orderQuantity.remove(targetIndex);
+					reloadPage();
+				});
+			}
+
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+
+				if (empty || getIndex() < 0 || getIndex() > menuItemsTable.getItems().size()) {
+					setGraphic(null);
+					return;
+				}
+
+				setGraphic(deleteButton);
+			}
+		});
+
+		menuItemsTable.getColumns().add(nameColumn);
+		menuItemsTable.getColumns().add(descriptionColumn);
+		menuItemsTable.getColumns().add(priceColumn);
+		menuItemsTable.getColumns().add(qtyColumn);
+		menuItemsTable.getColumns().add(actionColumn);
+
+		menuItemsTable.getItems().addAll(foodList);
+
+		return menuItemsTable;
+	}
+
+	private void submitOrder() {
+		Button submitBtn = new Button("Proceed Order");
+		contentArea.getChildren().addAll(submitBtn);
+
+		submitBtn.setOnAction(e -> {
+			OrderInformationInput inputInfo = new OrderInformationInput(orderCart, orderQuantity, currentUser);
+			inputInfo.show();
+
+		});
+	}
+
+	private void loadOrderListData(TableView<Order> orderListTable) {
+		ArrayList<Order> orderList = orderController.showOrderList();
+		orderListTable.getItems().setAll(orderList);
+	}
+
+	private void showCustomerOrderList() {
+		contentArea.getChildren().clear();
+
+		Label titleLabel = new Label("Order List");
+		contentArea.getChildren().addAll(titleLabel);
+
+		TableView<Order> orderListTable = createOrderListTable();
+		loadOrderListData(orderListTable);
+		orderListTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		contentArea.getChildren().addAll(orderListTable);
+	}
+
+	private TableView<Order> createOrderListTable() {
+		TableView<Order> orderListTable = new TableView<>();
+
+		TableColumn<Order, String> orderIDColumn = new TableColumn<>("Order ID");
+		orderIDColumn.setCellValueFactory(new PropertyValueFactory<>("OrderID"));
+
+		TableColumn<Order, String> userIDColumn = new TableColumn<>("User ID");
+		userIDColumn.setCellValueFactory(new PropertyValueFactory<>("UserID"));
+
+		TableColumn<Order, String> paymentTypeColumn = new TableColumn<>("Payment Type");
+		paymentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentType"));
+
+		TableColumn<Order, Integer> paymentAmountColumn = new TableColumn<>("Payment Amount");
+		paymentAmountColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentAmount"));
+
+		TableColumn<Order, String> statusColumn = new TableColumn<>("Payment Status");
+		statusColumn.setCellValueFactory(new PropertyValueFactory<>("PaymentStatus"));
+
+		TableColumn<Order, Void> actionColumn = new TableColumn<>("Order Details");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button linkButton = new Button("See Details");
+			private HBox container = new HBox(10);
+
+			{
+				linkButton.setOnAction(e -> {
+					Order o = getTableView().getItems().get(getIndex());
+					showOrderDetails(o);
+				});
+				container.getChildren().addAll(linkButton);
+			}
+		});
+
+		orderListTable.getColumns().add(orderIDColumn);
+		orderListTable.getColumns().add(userIDColumn);
+		orderListTable.getColumns().add(paymentTypeColumn);
+		orderListTable.getColumns().add(paymentAmountColumn);
+		orderListTable.getColumns().add(statusColumn);
+		orderListTable.getColumns().add(actionColumn);
+
+		return orderListTable;
+	}
+
+	private void loadOrderDetailsData(TableView<OrderDetails> orderDetailsTable, Order order) {
+		ArrayList<OrderDetails> orderDetails = orderController.showOrderDetailsByOrder(order);
+		orderDetailsTable.getItems().setAll(orderDetails);
+	}
+
+	private void showOrderDetails(Order order) {
+		contentArea.getChildren().clear();
+
+		Label titleLabel = new Label("Order Details");
+		contentArea.getChildren().addAll(titleLabel);
+
+		TableView<OrderDetails> orderDetailsTable = createOrderDetailsTable(order);
+		loadOrderDetailsData(orderDetailsTable, order);
+		orderDetailsTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		contentArea.getChildren().addAll(orderDetailsTable);
+
+		Button backBtn = new Button("<< Back");
+		contentArea.getChildren().addAll(backBtn);
+		backBtn.setOnAction(e -> {
+			showCustomerOrderList();
+		});
+	}
+
+	private TableView<OrderDetails> createOrderDetailsTable(Order order) {
+		TableView<OrderDetails> orderDetailsTable = new TableView<>();
+
+		TableColumn<OrderDetails, String> orderDetailsIDColumn = new TableColumn<>("ID");
+		orderDetailsIDColumn.setCellValueFactory(new PropertyValueFactory<>("ID"));
+
+		TableColumn<OrderDetails, String> orderIDColumn = new TableColumn<>("Order ID");
+		orderIDColumn.setCellValueFactory(new PropertyValueFactory<>("Order ID"));
+
+		TableColumn<OrderDetails, String> menuIDColumn = new TableColumn<>("Menu ID");
+		menuIDColumn.setCellValueFactory(new PropertyValueFactory<>("Menu ID"));
+
+		TableColumn<OrderDetails, Integer> qtyColumn = new TableColumn<>("Quantity");
+		qtyColumn.setCellValueFactory(new PropertyValueFactory<>("Quantity"));
+
+		TableColumn<OrderDetails, Void> actionColumn = new TableColumn<>("Update Data");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button editButton = new Button("Edit");
+			private HBox container = new HBox(10);
+
+			{
+				editButton.setOnAction(e -> {
+					OrderDetails od = getTableView().getItems().get(getIndex());
+					updateOrderDetails(order, od);
+				});
+				container.getChildren().addAll(editButton);
+			}
+		});
+
+		orderDetailsTable.getColumns().add(orderDetailsIDColumn);
+		orderDetailsTable.getColumns().add(orderIDColumn);
+		orderDetailsTable.getColumns().add(menuIDColumn);
+		orderDetailsTable.getColumns().add(qtyColumn);
+		orderDetailsTable.getColumns().add(actionColumn);
+
+		return orderDetailsTable;
+	}
+
+	private void updateOrderDetails(Order order, OrderDetails od) {
+		contentArea.getChildren().clear();
+
+		HBox container = new HBox(10);
+		Label prompt = new Label("Please Input New Quantity :");
+		TextField qtyInput = new TextField();
+		container.getChildren().addAll(prompt, qtyInput);
+
+		Button updateBtn = new Button("Update Data");
+		updateBtn.setOnAction(e -> {
+			od.setQuantity(Integer.parseInt(qtyInput.getText()));
+			orderController.updateOrderDetails(od, Integer.parseInt(qtyInput.getText()));
+			showOrderDetails(order);
+		});
+
+	}
+
+	private void showCustomerProfile() {
+		contentArea.getChildren().clear();
+	}
+
+	private void reloadPage() {
+		Platform.runLater(() -> {
+			showMenuList();
+		});
 	}
 }

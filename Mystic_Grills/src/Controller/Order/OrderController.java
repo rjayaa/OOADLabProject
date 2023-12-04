@@ -16,12 +16,12 @@ import Model.OrderDetails.OrderDetails;
 
 public class OrderController {
 	
-	private static Connection connection = Singleton.getInstance().getConnection();
+//	private static Connection connection = Singleton.getInstance().getConnection();
 	
 	public void insertOrder(Order order) {
 		String query = "INSERT INTO order(orderID, userID, paymentType, paymentAmount, status) VALUES (?,?,?,?,?)";
 		
-		try (PreparedStatement ps = connection.prepareStatement(query)) {
+		try (PreparedStatement ps = Singleton.getInstance().getConnection().prepareStatement(query)) {
 			ps.setString(1, order.getOrderID());
 			ps.setString(2, order.getUserID());
 			ps.setString(3, order.getPaymentType());
@@ -36,7 +36,7 @@ public class OrderController {
 	public void insertOrderDetails(OrderDetails orderDetail) {
 		String query = "INSERT INTO orderdetails(orderDetailsID, orderID, menuID, quantity) VALUES (?,?,?,?)";
 		
-		try (PreparedStatement ps = connection.prepareStatement(query)) {
+		try (PreparedStatement ps = Singleton.getInstance().getConnection().prepareStatement(query)) {
 			ps.setString(1, orderDetail.getOrderDetailsID());
 			ps.setString(2, orderDetail.getOrderID());
 			ps.setString(3, orderDetail.getMenuID());
@@ -91,7 +91,7 @@ public class OrderController {
 	
 	public void updateOrderDetails(OrderDetails od, Integer quantity) {
 		String query = "UPDATE orderdetails SET quantity = ? WHERE orderDetailsID = ?";
-		try (PreparedStatement ps = connection.prepareStatement(query)) {
+		try (PreparedStatement ps = Singleton.getInstance().getConnection().prepareStatement(query)) {
 			ps.setInt(1, quantity);
 			ps.setString(2, od.getOrderDetailsID());
 			ps.executeUpdate();
