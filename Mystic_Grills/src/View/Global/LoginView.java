@@ -1,4 +1,4 @@
-package View.LoginAndSignUp;
+package View.Global;
 
 import Controller.User.UserController;
 import DBConnection.Singleton;

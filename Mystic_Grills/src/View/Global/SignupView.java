@@ -1,4 +1,4 @@
-package View.LoginAndSignUp;
+package View.Global;
 
 import java.util.Random;
 
