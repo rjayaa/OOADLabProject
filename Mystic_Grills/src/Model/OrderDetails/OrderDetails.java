@@ -1,4 +1,4 @@
-package Model;
+package Model.OrderDetails;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package View.LoginAndSignUp;
 
 import Controller.User.UserController;
 import DBConnection.Singleton;
-import Model.User;
+import Model.User.User;
 import View.Customer.CustomerPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

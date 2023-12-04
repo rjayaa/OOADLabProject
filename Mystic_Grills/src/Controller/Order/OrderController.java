@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DBConnection.Singleton;
-import Model.FoodItem;
-import Model.Order;
-import Model.OrderDetails;
+import Model.FoodItem.FoodItem;
+import Model.Order.Order;
+import Model.OrderDetails.OrderDetails;
 
 
 

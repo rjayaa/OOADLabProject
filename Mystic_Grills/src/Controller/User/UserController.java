@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import DBConnection.Singleton;
-import Model.User;
+import Model.User.User;
 
 public class UserController {
 

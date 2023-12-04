@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import DBConnection.Singleton;
-import Model.FoodItem;
+import Model.FoodItem.FoodItem;
 
 public class FoodController {
 

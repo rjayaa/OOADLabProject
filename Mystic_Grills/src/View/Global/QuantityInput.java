@@ -3,8 +3,8 @@ package View.Global;
 import java.util.Random;
 
 import Controller.User.UserController;
-import Model.FoodItem;
-import Model.User;
+import Model.FoodItem.FoodItem;
+import Model.User.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

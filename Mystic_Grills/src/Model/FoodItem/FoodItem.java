@@ -1,4 +1,4 @@
-package Model;
+package Model.FoodItem;
 
 public class FoodItem {
 	private String menuItemID;
