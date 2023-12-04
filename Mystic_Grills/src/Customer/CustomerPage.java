@@ -8,12 +8,9 @@ import DBConnection.Singleton;
 import Model.FoodItem;
 import Model.Order;
 import Model.OrderDetails;
-
 import Model.User;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleIntegerProperty;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
