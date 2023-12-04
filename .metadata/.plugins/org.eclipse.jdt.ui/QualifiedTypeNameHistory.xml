@@ -10,4 +10,11 @@
     <fullyQualifiedTypeName name="Iterator.Iterator"/>
     <fullyQualifiedTypeName name="Model.Order.Order"/>
     <fullyQualifiedTypeName name="Controller.Food.FoodController"/>
+    <fullyQualifiedTypeName name="javafx.stage.StageStyle"/>
+    <fullyQualifiedTypeName name="DBConnection.Singleton"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Button"/>
+    <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
+    <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
+    <fullyQualifiedTypeName name="javafx.scene.text.FontWeight"/>
+    <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
 </qualifiedTypeNameHistroy>
