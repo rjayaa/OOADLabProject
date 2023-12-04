@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2023 at 03:09 PM
--- Server version: 10.4.19-MariaDB
--- PHP Version: 8.0.7
+-- Generation Time: Dec 04, 2023 at 04:06 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,18 @@ CREATE TABLE `fooditem` (
   `menuItemName` varchar(100) NOT NULL,
   `menuItemDescription` varchar(100) NOT NULL,
   `menuItemPrice` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `fooditem`
+--
+
+INSERT INTO `fooditem` (`menuItemID`, `menuItemName`, `menuItemDescription`, `menuItemPrice`) VALUES
+('MN001', 'Nasi Goreng', 'Nasi goreng spesial', 25000),
+('MN002', 'Mie Ayam', 'Mie ayam pangsit spesial', 20000),
+('MN003', 'Sate Ayam', 'Sate ayam dengan bumbu kacang', 30000),
+('MN004', 'Gado-gado', 'Gado-gado segar dengan lontong', 28000),
+('MN005', 'Bakso', 'Bakso sapi pilihan dengan mie', 22000);
 
 -- --------------------------------------------------------
 
@@ -46,7 +57,7 @@ CREATE TABLE `order` (
   `paymentType` varchar(100) NOT NULL,
   `paymentAmount` int(100) NOT NULL,
   `status` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -59,7 +70,7 @@ CREATE TABLE `orderdetails` (
   `orderID` varchar(100) NOT NULL,
   `menuID` varchar(100) NOT NULL,
   `quantity` int(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -73,7 +84,7 @@ CREATE TABLE `user` (
   `userName` varchar(100) DEFAULT NULL,
   `userEmail` varchar(100) DEFAULT NULL,
   `userPassword` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
