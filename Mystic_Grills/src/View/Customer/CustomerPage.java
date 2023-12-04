@@ -136,12 +136,8 @@ public class CustomerPage extends Stage {
 		TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
 		actionColumn.setCellFactory(e -> new TableCell<>() {
 			private Button addButton = new Button("Add");
-			private HBox container = new HBox(10);
-			private Label quantityLbl;
-			private TextField quantityInput = new TextField();
 			
 			{
-				quantityLbl = new Label("Quantity : ");
 				addButton.setOnAction(e -> {
 //					setGraphic(quantityInput);
 					FoodItem curr = getTableView().getItems().get(getIndex());
@@ -155,7 +151,6 @@ public class CustomerPage extends Stage {
 					}
 					
 				});
-				container.getChildren().addAll(quantityLbl, quantityInput, addButton);
 			}
 			
 			protected void updateItem(Void item, boolean empty) {
@@ -198,11 +193,37 @@ public class CustomerPage extends Stage {
             int index = foodList.indexOf(cellData.getValue());
             return index >= 0 ? new SimpleIntegerProperty(orderQuantity.get(index)).asObject() : null;
         });
+	    
+	    TableColumn<FoodItem, Void> actionColumn = new TableColumn<>("Add Order");
+		actionColumn.setCellFactory(e -> new TableCell<>() {
+			private Button deleteButton = new Button("Delete");
+			
+			{
+				deleteButton.setOnAction(e -> {
+					int targetIndex = getTableRow().getIndex();
+					orderCart.remove(targetIndex);
+					orderQuantity.remove(targetIndex);
+					reloadPage();
+				});
+			}
+			
+			protected void updateItem(Void item, boolean empty) {
+				super.updateItem(item, empty);
+				
+				if(empty || getIndex() < 0 || getIndex() > menuItemsTable.getItems().size()) {
+					setGraphic(null);
+					return;
+				}
+				
+				setGraphic(deleteButton);
+			}
+		});
 
 	    menuItemsTable.getColumns().add(nameColumn);
 	    menuItemsTable.getColumns().add(descriptionColumn);
 	    menuItemsTable.getColumns().add(priceColumn);
 	    menuItemsTable.getColumns().add(qtyColumn);
+	    menuItemsTable.getColumns().add(actionColumn);
 
 	    menuItemsTable.getItems().addAll(foodList);
 
@@ -214,55 +235,11 @@ public class CustomerPage extends Stage {
 		contentArea.getChildren().addAll(submitBtn);
 		
 		submitBtn.setOnAction(e -> {
-			OrderInformationInput inputInfo = new OrderInformationInput(orderCart, orderQuantity);
-			inputInfo.showAndWait();
+			OrderInformationInput inputInfo = new OrderInformationInput(orderCart, orderQuantity, currentUser);
+			inputInfo.show();
+			
+			
 		});	
-	}
-	
-	private void showOrderForm() {
-		contentArea.getChildren().clear();
-		
-		GridPane form = new GridPane();
-		form.setVgap(10);
-		form.setHgap(10);
-		
-		form.add(new Label("Your ID : "), 0, 0);
-		//ambil current user dari session ???
-		form.add(new Label("US001"), 1, 0);
-		form.add(new Label("Input Payment Type : "), 0, 1);
-		TextField paymentTypeInput = new TextField();
-		form.add(paymentTypeInput, 1, 1);
-		form.add(new Label("Input Total Payment"), 0, 2);
-		TextField amountInput = new TextField();
-		form.add(amountInput, 1, 2);
-		
-		contentArea.getChildren().addAll(form);
-		
-		Button submit = new Button("Submit Order");
-		submit.setOnAction(e -> {
-			// order id belum di auto increment
-			String orderID = "OR001";
-			// user id hrsny ambil dri current user
-			String userID = "US001";
-			String paymentType = paymentTypeInput.getText();
-			Integer paymentAmount = Integer.parseInt(amountInput.getText());
-			String status = "Pending";
-			
-			/*
-			  validasi data belum
-			 */
-			orderController.insertOrder(new Order(orderID, userID, paymentType, paymentAmount, status));
-			
-			for(FoodItem i: orderCart) {
-				int idx = 0;
-				//details id juga blum auto increment
-				String orderDetailsID = "OD001";
-				orderController.insertOrderDetails(new OrderDetails(orderDetailsID, orderID, i.getMenuItemID(), orderQuantity.get(idx)));
-				idx++;
-			}
-			showMenuList();
-		});
-		contentArea.getChildren().addAll(submit);
 	}
 	
 	private void loadOrderListData(TableView<Order> orderListTable) {

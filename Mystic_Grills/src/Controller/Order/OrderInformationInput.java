@@ -1,8 +1,11 @@
 package Controller.Order;
-
 import java.util.ArrayList;
 
+import DBConnection.Singleton;
 import Model.FoodItem.FoodItem;
+import Model.Order.Order;
+import Model.OrderDetails.OrderDetails;
+import Model.User.User;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,7 +30,7 @@ public class OrderInformationInput extends Stage{
 	private Scene scene;
 	private BorderPane root;
 	private VBox contentArea;
-
+	
 	// Controller
 //	private static UserController usercontroller = new UserController();
 //	private static Alert errorAlert = new Alert(Alert.AlertType.ERROR);
@@ -39,7 +42,7 @@ public class OrderInformationInput extends Stage{
 	
 	OrderController orderController = new OrderController();
 	
-	public OrderInformationInput(ArrayList<FoodItem> orderCart, ArrayList<Integer> orderQuantity) {
+	public OrderInformationInput(ArrayList<FoodItem> orderCart, ArrayList<Integer> orderQuantity, User currentUser) {
 		this.setTitle("Order Information");
 		this.initStyle(StageStyle.DECORATED);
 		root = new BorderPane();
@@ -50,7 +53,7 @@ public class OrderInformationInput extends Stage{
 		contentArea.setPadding(new Insets(5));
 
 		lblAddress = new Label("Your ID :");
-		txtAddress = new TextField("US001"); //Masukin ID User
+		txtAddress = new TextField(currentUser.getUserId()); //Masukin ID User
 		txtAddress.setDisable(true);
 
 		lblPayment = new Label("Input Payment Type :");
@@ -64,9 +67,15 @@ public class OrderInformationInput extends Stage{
 
 		btnConfirm = new Button("Confirm");
 		btnConfirm.setOnAction(new EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent event) {
+				Order newOrder = new Order("OH001", currentUser.getUserId(), "Cash", calculateTotalPayment(orderCart, orderQuantity), "Pending");
+				orderController.insertOrder(newOrder);
+				
+				for(int i = 0; i < orderCart.size(); i++) {
+					OrderDetails od = new OrderDetails("OD001", newOrder.getOrderID(), orderCart.get(i).getMenuItemID(), orderQuantity.get(i));
+					orderController.insertOrderDetails(od);
+				}
 				
 			}
 		});
@@ -83,6 +92,17 @@ public class OrderInformationInput extends Stage{
 		root.setCenter(contentArea);
 		
 		
+	}
+	
+	private int calculateTotalPayment(ArrayList<FoodItem> orderCart, ArrayList<Integer> orderQuantity) {
+		
+		int totalPayment = 0;
+		
+		for(int i = 0; i < orderCart.size(); i++) {
+			totalPayment += orderCart.get(i).getMenuItemPrice() * orderQuantity.get(i);
+		}
+		
+		return totalPayment;
 	}
 	
 	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
