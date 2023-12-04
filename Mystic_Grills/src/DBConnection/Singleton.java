@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import Model.User;
+import Model.User.User;
 
 public class Singleton {
 	private static Singleton instance = null;
