@@ -4,7 +4,6 @@ import Controller.User.UserController;
 import DBConnection.Singleton;
 import Model.User.User;
 import View.Customer.CustomerLandingPage;
-import View.Customer.CustomerMenuPageOld;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
