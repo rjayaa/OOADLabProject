@@ -69,14 +69,14 @@ public class OrderInformationInput extends Stage{
 		btnConfirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Order newOrder = new Order("OH001", currentUser.getUserId(), "Cash", calculateTotalPayment(orderCart, orderQuantity), "Pending");
-				orderController.insertOrder(newOrder);
-				
-				for(int i = 0; i < orderCart.size(); i++) {
-					OrderDetails od = new OrderDetails("OD001", newOrder.getOrderID(), orderCart.get(i).getMenuItemID(), orderQuantity.get(i));
-					orderController.insertOrderDetails(od);
-				}
-				
+//				Order newOrder = new Order("OH001", currentUser.getUserId(), "Cash", calculateTotalPayment(orderCart, orderQuantity), "Pending");
+//				orderController.insertOrder(newOrder);
+//				
+//				for(int i = 0; i < orderCart.size(); i++) {
+//					OrderDetails od = new OrderDetails("OD001", newOrder.getOrderID(), orderCart.get(i).getMenuItemID(), orderQuantity.get(i));
+//					orderController.insertOrderDetails(od);
+//				}
+//				
 			}
 		});
 		

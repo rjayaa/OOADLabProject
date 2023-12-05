@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 04, 2023 at 04:06 PM
+-- Generation Time: Dec 05, 2023 at 08:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -24,26 +24,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `fooditem`
+-- Table structure for table `menuitem`
 --
 
-CREATE TABLE `fooditem` (
-  `menuItemID` varchar(100) NOT NULL,
+CREATE TABLE `menuitem` (
+  `menuItemId` int(11) NOT NULL,
   `menuItemName` varchar(100) NOT NULL,
   `menuItemDescription` varchar(100) NOT NULL,
-  `menuItemPrice` int(100) NOT NULL
+  `menuItemPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `fooditem`
---
-
-INSERT INTO `fooditem` (`menuItemID`, `menuItemName`, `menuItemDescription`, `menuItemPrice`) VALUES
-('MN001', 'Nasi Goreng', 'Nasi goreng spesial', 25000),
-('MN002', 'Mie Ayam', 'Mie ayam pangsit spesial', 20000),
-('MN003', 'Sate Ayam', 'Sate ayam dengan bumbu kacang', 30000),
-('MN004', 'Gado-gado', 'Gado-gado segar dengan lontong', 28000),
-('MN005', 'Bakso', 'Bakso sapi pilihan dengan mie', 22000);
 
 -- --------------------------------------------------------
 
@@ -52,24 +41,37 @@ INSERT INTO `fooditem` (`menuItemID`, `menuItemName`, `menuItemDescription`, `me
 --
 
 CREATE TABLE `order` (
-  `orderID` varchar(100) NOT NULL,
-  `userID` varchar(100) NOT NULL,
-  `paymentType` varchar(100) NOT NULL,
-  `paymentAmount` int(100) NOT NULL,
-  `status` varchar(100) NOT NULL
+  `orderId` int(11) NOT NULL,
+  `orderUser` int(11) NOT NULL,
+  `orderStatus` varchar(100) NOT NULL,
+  `orderDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `orderTotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderdetails`
+-- Table structure for table `orderitem`
 --
 
-CREATE TABLE `orderdetails` (
-  `orderDetailsID` varchar(100) NOT NULL,
-  `orderID` varchar(100) NOT NULL,
-  `menuID` varchar(100) NOT NULL,
-  `quantity` int(100) NOT NULL
+CREATE TABLE `orderitem` (
+  `orderId` int(11) NOT NULL,
+  `menuItemId` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `receipt`
+--
+
+CREATE TABLE `receipt` (
+  `receiptId` int(11) NOT NULL,
+  `orderId` int(11) NOT NULL,
+  `receiptPaymentAmount` int(11) NOT NULL,
+  `receiptPaymentDate` timestamp NOT NULL DEFAULT current_timestamp(),
+  `receiptPaymentType` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -79,30 +81,105 @@ CREATE TABLE `orderdetails` (
 --
 
 CREATE TABLE `user` (
-  `userId` varchar(100) DEFAULT NULL,
-  `userRole` varchar(100) DEFAULT NULL,
-  `userName` varchar(100) DEFAULT NULL,
-  `userEmail` varchar(100) DEFAULT NULL,
-  `userPassword` varchar(100) DEFAULT NULL
+  `userId` int(11) NOT NULL,
+  `userRole` varchar(100) NOT NULL,
+  `userName` varchar(100) NOT NULL,
+  `userEmail` varchar(100) NOT NULL,
+  `userPassword` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`userId`, `userRole`, `userName`, `userEmail`, `userPassword`) VALUES
-('US197', 'Customer', 'rjayaa', 'raja@gmail.com', '123456'),
-('US143', 'Customer', 'asd', 'asd', '123456');
 
 --
 -- Indexes for dumped tables
 --
 
 --
+-- Indexes for table `menuitem`
+--
+ALTER TABLE `menuitem`
+  ADD PRIMARY KEY (`menuItemId`);
+
+--
+-- Indexes for table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`orderId`),
+  ADD KEY `orderUser` (`orderUser`);
+
+--
+-- Indexes for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  ADD PRIMARY KEY (`orderId`),
+  ADD KEY `menuItemId` (`menuItemId`);
+
+--
+-- Indexes for table `receipt`
+--
+ALTER TABLE `receipt`
+  ADD PRIMARY KEY (`receiptId`),
+  ADD KEY `orderId` (`orderId`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
-  ADD UNIQUE KEY `userEmail` (`userEmail`);
+  ADD PRIMARY KEY (`userId`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `menuitem`
+--
+ALTER TABLE `menuitem`
+  MODIFY `menuItemId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `receipt`
+--
+ALTER TABLE `receipt`
+  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`orderUser`) REFERENCES `user` (`userId`);
+
+--
+-- Constraints for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`menuItemId`) REFERENCES `menuitem` (`menuItemId`);
+
+--
+-- Constraints for table `receipt`
+--
+ALTER TABLE `receipt`
+  ADD CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

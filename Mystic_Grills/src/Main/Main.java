@@ -1,5 +1,6 @@
 package Main;
 
+import View.Customer.dummyCustomerPage;
 import View.Global.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ public class Main extends Application {
 	}
 
 	public void initScene() {
-		LoginView lg = new LoginView();
+		dummyCustomerPage lg = new dummyCustomerPage();
 		lg.show();
 	}
 

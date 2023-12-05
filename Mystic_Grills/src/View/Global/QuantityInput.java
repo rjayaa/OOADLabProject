@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -33,15 +34,15 @@ public class QuantityInput extends Stage {
 	private Label lblFoodName, lblQty;
 	private TextField txtFoodName, txtQty;
 	private Button btnOrder, btnCancel;
-	
-	private int qty = 0;
+	private Alert alert = new Alert(AlertType.ERROR);
+	private int qty;
 	private boolean btnPressed = false;
-	
+
 	public QuantityInput(FoodItem curr) {
 		this.setTitle("Input Quantity");
 		this.initStyle(StageStyle.DECORATED);
 		root = new BorderPane();
-		scene = new Scene(root, 400, 250);
+		scene = new Scene(root, 300, 200);
 		this.setScene(scene);
 
 		contentArea = new VBox(5);
@@ -56,38 +57,58 @@ public class QuantityInput extends Stage {
 
 		btnOrder = new Button("Confirm");
 		btnOrder.setOnAction(new EventHandler<ActionEvent>() {
-			
+
 			@Override
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				try {
-					qty = Integer.parseInt(txtQty.getText());
-					if(qty > 0) {
+					String validateQty = txtQty.getText();
+					if (validateQty.isEmpty()) {
+
+						alert.setTitle("Error");
+						alert.setHeaderText(null);
+						alert.setContentText("Quantity be Empty");
+						alert.showAndWait();
+					} else if (!validateQty.matches("\\d+")) {
+						alert.setTitle("Error");
+						alert.setHeaderText(null);
+						alert.setContentText("Please enter a valid quantity (only numbers allowed)");
+						alert.showAndWait();
+					} else if (Integer.parseInt(validateQty) <= 0) {
+						alert.setTitle("Error");
+						alert.setHeaderText(null);
+						alert.setContentText("Quantity should be greater than zero");
+						alert.showAndWait();
+					}else {
+						Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+						successAlert.setTitle("Success");
+						successAlert.setHeaderText(null);
+						successAlert.setContentText("Successfully added to cart");
+						successAlert.showAndWait();
+						qty = Integer.parseInt(txtQty.getText()); 
 						btnPressed = true;
 						close();
 					}
-					
-				}catch(NumberFormatException e) {
-					
+				} catch (NumberFormatException e) {
+
 				}
 			}
 		});
-		
-		btnCancel = new Button("Cancel");
-		btnCancel.setOnAction(e->this.close());
 
-		
+		btnCancel = new Button("Cancel");
+		btnCancel.setOnAction(e -> this.close());
+
 		HBox buttonBox = new HBox(10);
-		buttonBox.getChildren().addAll(btnOrder,btnCancel);
+		buttonBox.getChildren().addAll(btnOrder, btnCancel);
 		buttonBox.setAlignment(Pos.CENTER);
 		contentArea.getChildren().addAll(lblFoodName, txtFoodName, lblQty, txtQty, buttonBox);
 		root.setCenter(contentArea);
 	}
-	
+
 	public int getQty() {
 		return qty;
 	}
-	
+
 	public boolean isBtnPressed() {
 		return btnPressed;
 	}

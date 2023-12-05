@@ -19,18 +19,18 @@ public class OrderController {
 //	private static Connection connection = Singleton.getInstance().getConnection();
 	
 	public void insertOrder(Order order) {
-		String query = "INSERT INTO order(orderID, userID, paymentType, paymentAmount, status) VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO order(orderI, userID, paymentType, paymentAmount, status) VALUES (?,?,?,?,?)";
 		
-		try (PreparedStatement ps = Singleton.getInstance().getConnection().prepareStatement(query)) {
-			ps.setString(1, order.getOrderID());
-			ps.setString(2, order.getUserID());
-			ps.setString(3, order.getPaymentType());
-			ps.setInt(4, order.getPaymentAmount());
-			ps.setString(5, order.getStatus());
-			ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+//		try (PreparedStatement ps = Singleton.getInstance().getConnection().prepareStatement(query)) {
+//			ps.setString(1, order.getOrderID());
+//			ps.setString(2, order.getUserID());
+//			ps.setString(3, order.getPaymentType());
+//			ps.setInt(4, order.getPaymentAmount());
+//			ps.setString(5, order.getStatus());
+//			ps.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	public void insertOrderDetails(OrderDetails orderDetail) {
@@ -49,43 +49,43 @@ public class OrderController {
 	
 	public ArrayList<Order> showOrderList() {
 		ArrayList<Order> orderList = new ArrayList<>();
-		String query = "SELECT * FROM `order`";
-
-		try(Connection connection = Singleton.getInstance().getConnection()){
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-			while(resultSet.next()) {
-				String orderId = resultSet.getString("orderID");
-				String userID = resultSet.getString("userID");
-				String paymentType = resultSet.getString("paymentType");
-				int paymentAmount = resultSet.getInt("paymentAmount");
-				String paymentStatus = resultSet.getString("status");
-				orderList.add(new Order(orderId,userID, paymentType, paymentAmount, paymentStatus));
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+//		String query = "SELECT * FROM `order`";
+//
+//		try(Connection connection = Singleton.getInstance().getConnection()){
+//			Statement statement = connection.createStatement();
+//			ResultSet resultSet = statement.executeQuery(query);
+//			while(resultSet.next()) {
+//				String orderId = resultSet.getString("orderID");
+//				String userID = resultSet.getString("userID");
+//				String paymentType = resultSet.getString("paymentType");
+//				int paymentAmount = resultSet.getInt("paymentAmount");
+//				String paymentStatus = resultSet.getString("status");
+//				orderList.add(new Order(orderId,userID, paymentType, paymentAmount, paymentStatus));
+//			}
+//		}catch(SQLException e) {
+//			e.printStackTrace();
+//		}
 		return orderList;
 	}
 	
 	
 	public ArrayList<OrderDetails> showOrderDetailsByOrder(Order order) {
 		ArrayList<OrderDetails> orderDetails = new ArrayList<>();
-		String query = "SELECT * FROM orderdetails WHERE orderID = '" + order.getOrderID() + "'";
-
-		try(Connection connection = Singleton.getInstance().getConnection()){
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(query);
-			while(resultSet.next()) {
-				String orderDetailsID = resultSet.getString("orderDetailsID");
-				String orderID = resultSet.getString("orderID");
-				String menuID = resultSet.getString("menuID");
-				int quantity = resultSet.getInt("quantity");
-				orderDetails.add(new OrderDetails(orderDetailsID, order.getOrderID(), menuID, quantity));
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
+//		String query = "SELECT * FROM orderdetails WHERE orderID = '" + order.getOrderID() + "'";
+//
+//		try(Connection connection = Singleton.getInstance().getConnection()){
+//			Statement statement = connection.createStatement();
+//			ResultSet resultSet = statement.executeQuery(query);
+//			while(resultSet.next()) {
+//				String orderDetailsID = resultSet.getString("orderDetailsID");
+//				String orderID = resultSet.getString("orderID");
+//				String menuID = resultSet.getString("menuID");
+//				int quantity = resultSet.getInt("quantity");
+//				orderDetails.add(new OrderDetails(orderDetailsID, order.getOrderID(), menuID, quantity));
+//			}
+//		}catch(SQLException e) {
+//			e.printStackTrace();
+//		}
 		return orderDetails;
 	}
 	

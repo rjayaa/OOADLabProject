@@ -1,0 +1,32 @@
+package Controller.Order;
+
+import java.util.Optional;
+
+import Model.FoodItem.FoodItem;
+import javafx.scene.control.TextInputDialog;
+
+public class QuantityInput {
+    private FoodItem foodItem; // Menyimpan FoodItem yang terkait dengan kuantitas
+
+    public QuantityInput(FoodItem foodItem) {
+        this.foodItem = foodItem;
+    }
+
+    public int showQuantityPopup() {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Enter Quantity");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Please enter quantity:");
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            try {
+                return Integer.parseInt(result.get());
+            } catch (NumberFormatException e) {
+                // Handle jika input bukan angka
+                e.printStackTrace(); // Ganti dengan log atau pesan error yang sesuai
+            }
+        }
+        return 0; // Nilai default jika tidak ada input atau input tidak valid
+    }
+}
