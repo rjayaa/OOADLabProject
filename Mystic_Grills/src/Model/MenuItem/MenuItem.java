@@ -1,25 +1,25 @@
-package Model.FoodItem;
+package Model.MenuItem;
 
-public class FoodItem {
-	private String menuItemID;
+public class MenuItem {
+	private int menuItemId;
 	private String menuItemName;
 	private String menuItemDescription;
 	private Integer menuItemPrice;
 	
-	public FoodItem(String menuItemID, String menuItemName, String menuItemDescription, Integer menuItemPrice) {
-		super();
-		this.menuItemID = menuItemID;
+	public MenuItem(int menuItemId, String menuItemName, String menuItemDescription, Integer menuItemPrice) {
+		
+		this.menuItemId = menuItemId;
 		this.menuItemName = menuItemName;
 		this.menuItemDescription = menuItemDescription;
 		this.menuItemPrice = menuItemPrice;
 	}
 
-	public String getMenuItemID() {
-		return menuItemID;
+	public int getMenuItemId() {
+		return menuItemId;
 	}
 
-	public void setMenuItemID(String menuItemID) {
-		this.menuItemID = menuItemID;
+	public void setMenuItemId(int menuItemID) {
+		this.menuItemId = menuItemID;
 	}
 
 	public String getMenuItemName() {

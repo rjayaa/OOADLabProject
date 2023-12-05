@@ -2,6 +2,7 @@ package View.Global;
 
 import java.util.Random;
 
+import Controller.Order.OrderController;
 import Controller.User.UserController;
 import Model.User.User;
 import javafx.event.ActionEvent;
@@ -27,7 +28,7 @@ public class SignupView extends Stage {
 	// Controller
 	private static UserController usercontroller = new UserController();
 	private static Alert errorAlert = new Alert(Alert.AlertType.ERROR);
-
+	private static OrderController orderController = new OrderController();
 	// Component
 	private Label lblUsername, lblEmail, lblPassword, lblConfirmPassword;
 	private TextField txtUsername, txtEmail, txtPassword, txtConfirmPassword;
@@ -63,7 +64,7 @@ public class SignupView extends Stage {
 				// TODO Auto-generated method stub
 				try {
 					Random rand = new Random();
-					String userid = String.format("US%03d", rand.nextInt(1000));
+					int userid = 1 + orderController.getLastId();
 					String username = txtUsername.getText();
 					String email = txtEmail.getText();
 					String password = txtPassword.getText();

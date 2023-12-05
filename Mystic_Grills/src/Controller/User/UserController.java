@@ -15,7 +15,7 @@ public class UserController {
 	public void insertUser(User user) {
 		String query = "INSERT INTO user (userID, userRole,userName,userEmail,userPassword) VALUES (?,?,?,?,?)";
 		try (PreparedStatement ps = connection.prepareStatement(query)) {
-			ps.setString(1, user.getUserId());
+			ps.setInt(1, user.getUserId());
 			ps.setString(2, user.getUserRole());
 			ps.setString(3, user.getUsername());
 			ps.setString(4, user.getEmail());
@@ -81,7 +81,7 @@ public class UserController {
 	            ResultSet resultSet = preparedStatement.executeQuery();
 
 	            if (resultSet.next()) {
-	                String userId = resultSet.getString("userId");
+	                int userId = resultSet.getInt("userId");
 	                String userRole = resultSet.getString("userRole");
 	                String userName = resultSet.getString("userName");
 	                String userEmail = resultSet.getString("userEmail");

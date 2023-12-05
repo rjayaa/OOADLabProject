@@ -25,3 +25,15 @@
 1701695379291	Delete element
 1701704465898	Rename type 'CustomerMenuPage'
 1701704480755	Rename type 'CustomerPage'
+1701763166119	Rename type 'FoodItem'
+1701763182058	Rename package 'Model.FoodItem'
+1701768148585	Rename type 'Order'
+1701768157556	Rename package 'Model.Order'
+1701768292584	Delete element
+1701769279147	Rename type 'FoodController'
+1701769305914	Rename package 'Controller.Food'
+1701773097846	Rename type 'CustomerMenuPage'
+1701773108610	Rename type 'dummyCustomerPage'
+1701777559461	Delete element
+1701780643061	Rename type 'OrderDetails'
+1701780651866	Rename package 'Model.OrderDetails'

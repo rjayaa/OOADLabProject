@@ -2,9 +2,9 @@ package Controller.Order;
 import java.util.ArrayList;
 
 import DBConnection.Singleton;
-import Model.FoodItem.FoodItem;
+import Model.MenuItem.MenuItem;
 import Model.Order.Order;
-import Model.OrderDetails.OrderDetails;
+import Model.OrderItem.OrderItem;
 import Model.User.User;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -42,7 +42,7 @@ public class OrderInformationInput extends Stage{
 	
 	OrderController orderController = new OrderController();
 	
-	public OrderInformationInput(ArrayList<FoodItem> orderCart, ArrayList<Integer> orderQuantity, User currentUser) {
+	public OrderInformationInput(ArrayList<MenuItem> orderCart, ArrayList<Integer> orderQuantity, User currentUser) {
 		this.setTitle("Order Information");
 		this.initStyle(StageStyle.DECORATED);
 		root = new BorderPane();
@@ -53,7 +53,7 @@ public class OrderInformationInput extends Stage{
 		contentArea.setPadding(new Insets(5));
 
 		lblAddress = new Label("Your ID :");
-		txtAddress = new TextField(currentUser.getUserId()); //Masukin ID User
+		txtAddress = new TextField(String.valueOf(currentUser.getUserId())); //Masukin ID User
 		txtAddress.setDisable(true);
 
 		lblPayment = new Label("Input Payment Type :");
@@ -69,21 +69,14 @@ public class OrderInformationInput extends Stage{
 		btnConfirm.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-//				Order newOrder = new Order("OH001", currentUser.getUserId(), "Cash", calculateTotalPayment(orderCart, orderQuantity), "Pending");
-//				orderController.insertOrder(newOrder);
-//				
-//				for(int i = 0; i < orderCart.size(); i++) {
-//					OrderDetails od = new OrderDetails("OD001", newOrder.getOrderID(), orderCart.get(i).getMenuItemID(), orderQuantity.get(i));
-//					orderController.insertOrderDetails(od);
-//				}
-//				
+	
 			}
 		});
 		
 		btnCancel = new Button("Cancel");
 		btnCancel.setOnAction(e->this.close());
 
-		TableView<FoodItem> cartItemsTable = createCartItemsTable(orderCart, orderQuantity);
+		TableView<MenuItem> cartItemsTable = createCartItemsTable(orderCart, orderQuantity);
 		
 		HBox buttonBox = new HBox(10);
 		buttonBox.getChildren().addAll(btnConfirm,btnCancel);
@@ -94,7 +87,7 @@ public class OrderInformationInput extends Stage{
 		
 	}
 	
-	private int calculateTotalPayment(ArrayList<FoodItem> orderCart, ArrayList<Integer> orderQuantity) {
+	private int calculateTotalPayment(ArrayList<MenuItem> orderCart, ArrayList<Integer> orderQuantity) {
 		
 		int totalPayment = 0;
 		
@@ -105,22 +98,22 @@ public class OrderInformationInput extends Stage{
 		return totalPayment;
 	}
 	
-	private TableView<FoodItem> createCartItemsTable(ArrayList<FoodItem> foodList, ArrayList<Integer> orderQuantity) {
-	    TableView<FoodItem> menuItemsTable = new TableView<>();
+	private TableView<MenuItem> createCartItemsTable(ArrayList<MenuItem> foodList, ArrayList<Integer> orderQuantity) {
+	    TableView<MenuItem> menuItemsTable = new TableView<>();
 
-	    TableColumn<FoodItem, String> idColumn = new TableColumn<>("Menu ID");
+	    TableColumn<MenuItem, String> idColumn = new TableColumn<>("Menu ID");
 	    idColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemID"));
 
-	    TableColumn<FoodItem, String> nameColumn = new TableColumn<>("Menu Name");
+	    TableColumn<MenuItem, String> nameColumn = new TableColumn<>("Menu Name");
 	    nameColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemName"));
 
-	    TableColumn<FoodItem, String> descriptionColumn = new TableColumn<>("Menu Description");
+	    TableColumn<MenuItem, String> descriptionColumn = new TableColumn<>("Menu Description");
 	    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemDescription"));
 
-	    TableColumn<FoodItem, Integer> priceColumn = new TableColumn<>("Menu Price");
+	    TableColumn<MenuItem, Integer> priceColumn = new TableColumn<>("Menu Price");
 	    priceColumn.setCellValueFactory(new PropertyValueFactory<>("menuItemPrice"));
 
-	    TableColumn<FoodItem, Integer> qtyColumn = new TableColumn<>("Quantity");
+	    TableColumn<MenuItem, Integer> qtyColumn = new TableColumn<>("Quantity");
 	    qtyColumn.setCellValueFactory(cellData -> {
             int index = foodList.indexOf(cellData.getValue());
             return index >= 0 ? new SimpleIntegerProperty(orderQuantity.get(index)).asObject() : null;

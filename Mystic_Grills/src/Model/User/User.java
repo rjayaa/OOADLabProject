@@ -1,24 +1,24 @@
 package Model.User;
 
 public class User {
-	private String userId;
+	private int userId;
 	private String userRole;
 	private String username;
 	private String email;
 	private String password;
 	
 	
-	public User(String userId, String userRole, String username, String email, String password) {
+	public User(int userId, String userRole, String username, String email, String password) {
 		this.userId = userId;
 		this.userRole = userRole;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 	}
-	public String getUserId() {
+	public int getUserId() {
 		return userId;
 	}
-	public void setUserId(String userId) {
+	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getUserRole() {

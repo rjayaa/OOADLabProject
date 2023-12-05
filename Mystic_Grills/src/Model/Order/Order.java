@@ -1,40 +1,76 @@
 package Model.Order;
 
-import java.util.ArrayList;
+import java.sql.Timestamp;
 
 public class Order {
-	 private String orderId;
-	 private String menuItem;
-	 private int quantity;
-	 
-	public Order(String orderId, String menuItem, int quantity) {
+	private int orderId;
+	private int orderUser;
+	private String orderItems;
+	private String orderStatus;
+	private Timestamp orderDate;
+	private int orderTotal;
+	
+	
+	public Order(int orderId, int orderUser, String orderItems, String orderStatus, Timestamp orderDate,
+			int orderTotal) {
 		this.orderId = orderId;
-		this.menuItem = menuItem;
-		this.quantity = quantity;
+		this.orderUser = orderUser;
+		this.orderItems = orderItems;
+		this.orderStatus = orderStatus;
+		this.orderDate = orderDate;
+		this.orderTotal = orderTotal;
 	}
 
-	public String getOrderId() {
+	public int getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(String orderId) {
+	public void setOrderId(int orderId) {
 		this.orderId = orderId;
 	}
 
-	public String getMenuItem() {
-		return menuItem;
+	public int getOrderUser() {
+		return orderUser;
 	}
 
-	public void setMenuItem(String menuItem) {
-		this.menuItem = menuItem;
+	public void setOrderUser(int orderUser) {
+		this.orderUser = orderUser;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public String getOrderItems() {
+		return orderItems;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setOrderItems(String orderItems) {
+		this.orderItems = orderItems;
 	}
 
+	public String getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(String orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public Timestamp getOrderDate() {
+		return orderDate;
+	}
+
+	public void setOrderDate(Timestamp orderDate) {
+		this.orderDate = orderDate;
+	}
+
+	public Integer getOrderTotal() {
+		return orderTotal;
+	}
+
+	public void setOrderTotal(int orderTotal) {
+		this.orderTotal = orderTotal;
+	}
+	
+	
+	
+	
+	
 }
