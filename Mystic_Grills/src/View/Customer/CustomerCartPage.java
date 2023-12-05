@@ -82,7 +82,6 @@ public class CustomerCartPage extends Stage {
 
 		TableColumn<OrderItem, Integer> menuQuantity = new TableColumn<>("Quantity");
 		menuQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
 		TableColumn<OrderItem, Void> actionColumn = new TableColumn<>("Action Column");
 		actionColumn.setCellFactory(e -> new TableCell<>() {
 			private final Button updateButton = new Button("Update Quantity");

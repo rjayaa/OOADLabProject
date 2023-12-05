@@ -37,16 +37,16 @@ public class MenuController {
 	public int getLastId() {
 		int lastId = 1;
 		String query = "SELECT orderId FROM orderitem ORDER BY orderId DESC LIMIT 1";
-		
-		 	try {
-				PreparedStatement ps = connection.prepareStatement(query);
-				ResultSet rs = ps.executeQuery();
-				if(rs.next()) lastId = rs.getInt("orderId");
-			} catch (SQLException e) {
-			}
-		return lastId;	
+
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next())
+				lastId = rs.getInt("orderId");
+		} catch (SQLException e) {
+		}
+		return lastId;
 	}
-	
 	
 
 }

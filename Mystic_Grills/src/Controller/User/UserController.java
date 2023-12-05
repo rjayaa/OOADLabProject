@@ -91,7 +91,7 @@ public class UserController {
 	            }
 	        } catch (SQLException e) {
 	            e.printStackTrace();
-	            // Handle exception (log or throw)
+	         
 	        }
 		 return user;
 	}

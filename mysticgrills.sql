@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 08:58 AM
+-- Generation Time: Dec 05, 2023 at 10:00 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -34,6 +34,17 @@ CREATE TABLE `menuitem` (
   `menuItemPrice` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `menuitem`
+--
+
+INSERT INTO `menuitem` (`menuItemId`, `menuItemName`, `menuItemDescription`, `menuItemPrice`) VALUES
+(1, 'Spaghetti Bolognese', 'Pasta with meat sauce', 12),
+(2, 'Margherita Pizza', 'Pizza topped with tomato, mozzarella, and basil', 10),
+(3, 'Caesar Salad', 'Romaine lettuce, croutons, parmesan cheese, and Caesar dressing', 8),
+(4, 'Grilled Salmon', 'Salmon fillet with lemon butter sauce', 15),
+(5, 'Chicken Alfredo', 'Pasta with chicken and creamy Alfredo sauce', 14);
+
 -- --------------------------------------------------------
 
 --
@@ -43,10 +54,21 @@ CREATE TABLE `menuitem` (
 CREATE TABLE `order` (
   `orderId` int(11) NOT NULL,
   `orderUser` int(11) NOT NULL,
+  `orderItems` varchar(100) NOT NULL,
   `orderStatus` varchar(100) NOT NULL,
   `orderDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `orderTotal` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`orderId`, `orderUser`, `orderItems`, `orderStatus`, `orderDate`, `orderTotal`) VALUES
+(2, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 20:56:13', 3),
+(2, 1, 'Grilled Salmon', 'Pending', '2023-12-05 20:56:13', 5),
+(2, 1, 'Spaghetti Bolognese', 'Pending', '2023-12-05 20:56:13', 2),
+(2, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 20:56:13', 3);
 
 -- --------------------------------------------------------
 
@@ -60,6 +82,18 @@ CREATE TABLE `orderitem` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `orderitem`
+--
+
+INSERT INTO `orderitem` (`orderId`, `menuItemId`, `quantity`) VALUES
+(1, 5, 3),
+(1, 4, 4),
+(2, 5, 3),
+(2, 4, 5),
+(2, 1, 2),
+(2, 5, 3);
+
 -- --------------------------------------------------------
 
 --
@@ -68,7 +102,7 @@ CREATE TABLE `orderitem` (
 
 CREATE TABLE `receipt` (
   `receiptId` int(11) NOT NULL,
-  `orderId` int(11) NOT NULL,
+  `receiptOrder` int(11) NOT NULL,
   `receiptPaymentAmount` int(11) NOT NULL,
   `receiptPaymentDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `receiptPaymentType` varchar(100) NOT NULL
@@ -89,6 +123,13 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`userId`, `userRole`, `userName`, `userEmail`, `userPassword`) VALUES
+(1, 'admin', 'admin', 'admin', 'admin');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -102,14 +143,12 @@ ALTER TABLE `menuitem`
 -- Indexes for table `order`
 --
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`orderId`),
   ADD KEY `orderUser` (`orderUser`);
 
 --
 -- Indexes for table `orderitem`
 --
 ALTER TABLE `orderitem`
-  ADD PRIMARY KEY (`orderId`),
   ADD KEY `menuItemId` (`menuItemId`);
 
 --
@@ -117,7 +156,7 @@ ALTER TABLE `orderitem`
 --
 ALTER TABLE `receipt`
   ADD PRIMARY KEY (`receiptId`),
-  ADD KEY `orderId` (`orderId`);
+  ADD KEY `receiptOrder` (`receiptOrder`);
 
 --
 -- Indexes for table `user`
@@ -133,19 +172,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `menuitem`
 --
 ALTER TABLE `menuitem`
-  MODIFY `menuItemId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `order`
---
-ALTER TABLE `order`
-  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `orderitem`
---
-ALTER TABLE `orderitem`
-  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `menuItemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -157,7 +184,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -170,16 +197,10 @@ ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`orderUser`) REFERENCES `user` (`userId`);
 
 --
--- Constraints for table `orderitem`
---
-ALTER TABLE `orderitem`
-  ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`menuItemId`) REFERENCES `menuitem` (`menuItemId`);
-
---
 -- Constraints for table `receipt`
 --
 ALTER TABLE `receipt`
-  ADD CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `order` (`orderId`);
+  ADD CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`receiptOrder`) REFERENCES `order` (`orderId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

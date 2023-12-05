@@ -63,7 +63,7 @@ public class SignupView extends Stage {
 			public void handle(ActionEvent event) {
 				// TODO Auto-generated method stub
 				try {
-					Random rand = new Random();
+					
 					int userid = 1 + orderController.getLastId();
 					String username = txtUsername.getText();
 					String email = txtEmail.getText();
