@@ -1,4 +1,4 @@
-package View.Global;
+package View.Customer;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,13 +8,13 @@ import Controller.Order.OrderController;
 import DBConnection.Singleton;
 import Model.Order.Order;
 import Model.OrderItem.OrderItem;
-import Model.Receipt.Receipt;
-import Model.User.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public class PaymentTypeView extends Stage {
+public class CustomerPaymentPage extends Stage {
 
 	// framework
 	private Scene scene;
@@ -35,7 +35,7 @@ public class PaymentTypeView extends Stage {
 	// Component
 	private Label lblPayment;
 	private Button btnConfirm, btnCancel;
-
+	private Alert alert = new Alert(AlertType.INFORMATION);
 	// Controller
 	OrderController orderController = new OrderController();
 
@@ -46,7 +46,7 @@ public class PaymentTypeView extends Stage {
 
 	int currUserId = Singleton.getInstance().getCurrentUser().getUserId();
 
-	public PaymentTypeView(ArrayList<OrderItem> orderList) {
+	public CustomerPaymentPage(ArrayList<OrderItem> orderList) {
 
 		this.setTitle("Order Information");
 		this.initStyle(StageStyle.DECORATED);
@@ -80,7 +80,7 @@ public class PaymentTypeView extends Stage {
 				int totalAmount = 0;
 				if (selectedRadioButton != null) {
 
-					orderController.insertOrderItem(orderList);
+					orderController.insertOrderItem(orderList); // insert order item
 					for (OrderItem ord : orderList) {
 						Order newOrder = new Order(ord.getOrderId(), currUserId,
 								orderController.getMenuItemById(ord.getMenuItemId()), "Pending", timeStampNow,
@@ -91,10 +91,18 @@ public class PaymentTypeView extends Stage {
 						order.add(newOrder);
 					}
 
-					orderController.insertOrder(order);
+					orderController.insertOrder(order); // insert order
 					orderController.insertReceipt(orderController.getLastId() + 1, orderId, totalAmount, timeStampNow,
-							selectedRadioButton.getText());
-					close();
+							selectedRadioButton.getText()); // insert receipt
+					alert.setTitle("Success");
+					alert.setHeaderText(null);
+					alert.setContentText("Payment Succed");
+					alert.showAndWait();
+					
+					CustomerOrderStatusPage cos = new CustomerOrderStatusPage();
+					cos.show();
+					Stage currentStage = (Stage) btnConfirm.getScene().getWindow(); 
+					currentStage.close();
 				}
 			}
 		});

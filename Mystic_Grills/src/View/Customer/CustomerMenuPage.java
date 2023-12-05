@@ -44,7 +44,7 @@ public class CustomerMenuPage extends Stage {
 
 	public CustomerMenuPage() {
 		super(StageStyle.DECORATED);
-		// wireframe
+	
 		root = new BorderPane();
 		scene = new Scene(root, 800, 600);
 		this.setScene(scene);
@@ -80,7 +80,9 @@ public class CustomerMenuPage extends Stage {
 					alert.showAndWait();
 				}else {
 					CustomerCartPage ccp = new CustomerCartPage(selectedItems);
-					ccp.show();
+					ccp.showAndWait();
+					Stage currentStage = (Stage) btnViewCart.getScene().getWindow(); 
+					currentStage.close();
 				}
 				
 			}

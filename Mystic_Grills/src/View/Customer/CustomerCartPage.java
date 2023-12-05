@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import Controller.Order.OrderController;
 import Model.OrderItem.OrderItem;
-import View.Global.PaymentTypeView;
 import View.Global.QuantityInput;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -40,30 +39,39 @@ public class CustomerCartPage extends Stage {
 		this.setScene(scene);
 
 		VBox wrap = new VBox(40);
-		
+
 		TableView<OrderItem> menuCartTable = createCartTable(orderItem);
 		menuCartTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		HBox hbox = new HBox(20);
 		btnBackToMenu = new Button("Back");
 		btnPayment = new Button("Checkout");
-		btnBackToMenu.setPrefSize(100,50);
-		btnPayment.setPrefSize(100,50);
+		btnBackToMenu.setPrefSize(100, 50);
+		btnPayment.setPrefSize(100, 50);
 		hbox.getChildren().addAll(btnBackToMenu, btnPayment);
 		hbox.setAlignment(Pos.CENTER);
-		wrap.getChildren().addAll(menuCartTable,hbox);
+		wrap.getChildren().addAll(menuCartTable, hbox);
 		wrap.setAlignment(Pos.CENTER);
 		root.setTop(wrap);
-		
-		
-		btnBackToMenu.setOnAction(e->this.close());
-//		button handling
-		btnPayment.setOnAction(new EventHandler<ActionEvent>() {
+
+		btnBackToMenu.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				PaymentTypeView ptv = new PaymentTypeView(orderItem);
+				CustomerMenuPage cmp = new CustomerMenuPage();
+				cmp.showAndWait();
+				Stage currentStage = (Stage) btnBackToMenu.getScene().getWindow();
+				currentStage.close();
+			}
+		});
+		btnPayment.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+
+				CustomerPaymentPage ptv = new CustomerPaymentPage(orderItem);
 				ptv.showAndWait();
+				Stage currentStage = (Stage) btnPayment.getScene().getWindow();
+				currentStage.close();
 			}
 		});
 
@@ -74,11 +82,11 @@ public class CustomerCartPage extends Stage {
 
 		TableColumn<OrderItem, String> menuName = new TableColumn<>("Menu Name");
 		menuName.setCellValueFactory(data -> {
-	        int menuItemId = data.getValue().getMenuItemId(); 
-	        String menuItemName = orderController.getMenuItemById(menuItemId); 
+			int menuItemId = data.getValue().getMenuItemId();
+			String menuItemName = orderController.getMenuItemById(menuItemId);
 
-	        return new SimpleStringProperty(menuItemName); 
-	    });
+			return new SimpleStringProperty(menuItemName);
+		});
 
 		TableColumn<OrderItem, Integer> menuQuantity = new TableColumn<>("Quantity");
 		menuQuantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
@@ -100,21 +108,20 @@ public class CustomerCartPage extends Stage {
 					setGraphic(buttons);
 
 					updateButton.setOnAction(event -> {
-						 OrderItem selectedItem = getTableView().getItems().get(getIndex());
-		                    QuantityInput qi = new QuantityInput(selectedItem);
-		                    qi.showAndWait();
-		                    if (qi.isBtnPressed()) {
-		                        selectedItem.setQuantity(qi.getQty());
-		                        getTableView().refresh();
-		                        
-		                    }
+						OrderItem selectedItem = getTableView().getItems().get(getIndex());
+						QuantityInput qi = new QuantityInput(selectedItem);
+						qi.showAndWait();
+						if (qi.isBtnPressed()) {
+							selectedItem.setQuantity(qi.getQty());
+							getTableView().refresh();
+
+						}
 					});
 
 					deleteButton.setOnAction(event -> {
-						 OrderItem selectedItem = getTableView().getItems().get(getIndex());
-		                    getTableView().getItems().remove(selectedItem);
-		                    orderItems.remove(selectedItem);
-						
+						OrderItem selectedItem = getTableView().getItems().get(getIndex());
+						getTableView().getItems().remove(selectedItem);
+						orderItems.remove(selectedItem);
 
 					});
 				}

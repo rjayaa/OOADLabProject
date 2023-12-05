@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
 
 
 import DBConnection.Singleton;
-
+import Model.MenuItem.MenuItem;
 import Model.Order.Order;
 import Model.OrderItem.OrderItem;
 
@@ -19,6 +20,31 @@ public class OrderController {
 
 	private static Connection connection = Singleton.getInstance().getConnection();
 
+	public ArrayList<Order> showOrderList(){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderStatus = 'Pending'";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int orderId = rs.getInt("orderId");
+				int orderUser = rs.getInt("orderUser");
+				String orderItems = rs.getString("orderItems");
+				String orderStatus = rs.getString("orderStatus");
+				Timestamp timestamp = rs.getTimestamp("orderDate");
+				int orderTotal = rs.getInt("orderTotal");
+				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
 	public void insertOrderItem(ArrayList<OrderItem> orderList) {
 		String query = "INSERT INTO orderitem(orderId, menuItemId, quantity) VALUES (?,?,?)";
 
@@ -51,7 +77,7 @@ public class OrderController {
 			}
 			ps.executeBatch();
 		} catch (SQLException e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 	}
 
@@ -104,11 +130,24 @@ public class OrderController {
 				totalAmount = rs.getInt("menuItemPrice");
 
 		} catch (SQLException e) {
-
+			e.printStackTrace();
 		}
 		return totalAmount;
 	}
-
+	public String getUserById(int id) {
+		String user = "";
+		String query = "SELECT userName FROM user WHERE userId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) user = rs.getString("userName");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
 	public int getLastId() {
 		int lastId = 1;
 		String query = "SELECT orderId FROM orderitem ORDER BY orderId DESC LIMIT 1";

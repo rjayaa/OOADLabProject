@@ -1,11 +1,8 @@
 package View.Global;
 
-import java.util.Random;
-
-import Controller.User.UserController;
+import Controller.Order.OrderController;
 import Model.MenuItem.MenuItem;
 import Model.OrderItem.OrderItem;
-import Model.User.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -38,6 +35,7 @@ public class QuantityInput extends Stage {
 	private Alert alert = new Alert(AlertType.ERROR);
 	private int qty;
 	private boolean btnPressed = false;
+	private OrderController orderController = new OrderController();
 
 	public QuantityInput(MenuItem curr) {
 		this.setTitle("Input Quantity");
@@ -118,7 +116,7 @@ public class QuantityInput extends Stage {
 		contentArea.setPadding(new Insets(5));
 
 		lblFoodName = new Label("Food Name :");
-//		txtFoodName = new TextField(curr.getMenuItem());
+		txtFoodName = new TextField(orderController.getMenuItemById(curr.getMenuItemId()));
 		txtFoodName.setDisable(true);
 
 		lblQty = new Label("Quantity :");

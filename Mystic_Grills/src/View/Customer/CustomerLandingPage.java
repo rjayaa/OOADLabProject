@@ -19,7 +19,7 @@ import javafx.stage.StageStyle;
 public class CustomerLandingPage extends Stage {
 	private BorderPane root;
 	private Scene scene;
-	private Button btnOrder,btnViewCart,btnExit;
+	private Button btnOrder,btnViewOrder,btnExit;
 	private Label lblWelcome;
 	private User currentUser;
 	
@@ -34,14 +34,14 @@ public class CustomerLandingPage extends Stage {
 		
 		
 		btnOrder = new Button("Order Menu");
-		btnViewCart = new Button("View My Cart");
+		btnViewOrder = new Button("View My Order");
 		btnExit = new Button("Exit");
 		
 		lblWelcome = new Label("Welcome Mystic Grills!");
 		lblWelcome.setFont(Font.font("Arial", FontWeight.BOLD,20));
 		
 		btnOrder.setPrefSize(100, 50);
-		btnViewCart.setPrefSize(100, 50);
+		btnViewOrder.setPrefSize(100, 50);
 		btnExit.setPrefSize(100, 50);
 		
 		btnOrder.setOnAction(new EventHandler<ActionEvent>() {
@@ -57,8 +57,30 @@ public class CustomerLandingPage extends Stage {
 			}
 		});
 		
+		btnViewOrder.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				CustomerOrderStatusPage cosp = new CustomerOrderStatusPage();
+				cosp.show();
+				Stage stg = (Stage) btnOrder.getScene().getWindow();
+				stg.close();
+			}
+		});
+		
+		btnExit.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				close();
+			}
+		});
+		
+		
 		HBox btnHbox1 = new HBox(10);
-		btnHbox1.getChildren().addAll(btnOrder, btnViewCart);
+		btnHbox1.getChildren().addAll(btnOrder, btnViewOrder);
 		btnHbox1.setAlignment(Pos.CENTER);
 
 		HBox btnHbox2 = new HBox(10);

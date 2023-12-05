@@ -11,7 +11,6 @@ public class Receipt {
 
 	public Receipt(int receiptOrder, int receiptPaymentAmount, Timestamp receiptPaymentDate,
 			String receiptPaymentType) {
-
 		this.receiptOrder = receiptOrder;
 		this.receiptPaymentAmount = receiptPaymentAmount;
 		this.receiptPaymentDate = receiptPaymentDate;
