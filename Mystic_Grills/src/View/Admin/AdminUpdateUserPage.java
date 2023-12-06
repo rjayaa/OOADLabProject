@@ -28,6 +28,7 @@ public class AdminUpdateUserPage extends Stage {
 	private ComboBox<String> dropDown;
 	private Button btnSubmit;
 	private boolean btnPressed = false;
+	private String newRole;
 	private Alert alert = new Alert(AlertType.INFORMATION);
 
 	// controller
@@ -57,11 +58,14 @@ public class AdminUpdateUserPage extends Stage {
 			@Override
 			public void handle(ActionEvent event) {
 
-				uc.updateUser(user.getUserName(), dropDown.getValue().toString());
 				alert.setTitle("Success");
 				alert.setHeaderText(null);
 				alert.setContentText("Role Updated!");
 				alert.showAndWait();
+				newRole = dropDown.getValue().toString();
+				btnPressed = true; 
+				uc.updateUser(user.getUserName(), dropDown.getValue().toString());
+				close();
 				
 			}
 		});
@@ -73,7 +77,7 @@ public class AdminUpdateUserPage extends Stage {
 	}
 	
 	public String getNewRole() {
-		return dropDown.getValue().toString();
+		return newRole;
 	}
 	public boolean isBtnPressed() {
 		return btnPressed;

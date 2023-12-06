@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Controller.User.UserController;
 import Model.User.User;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -27,7 +29,7 @@ public class AdminViewAllUserPage extends Stage {
 	private UserController userController = new UserController();
 	// component
 	private Label lblViewUser;
-
+	private Button btnBackToMenu;
 	public AdminViewAllUserPage() {
 		super(StageStyle.DECORATED);
 		root = new BorderPane();
@@ -35,18 +37,33 @@ public class AdminViewAllUserPage extends Stage {
 		this.setTitle("Mystic Grills");
 		this.setScene(scene);
 		VBox vb = new VBox(20);
-		HBox hb = new HBox(20);
+		
 
 		lblViewUser = new Label("User List");
 		lblViewUser.setFont(Font.font("Arial", FontWeight.BOLD, 20));
-		
+
 		TableView<User> userTable = createUserTable();
 		loadMenuItemsData(userTable);
 		userTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+		userTable.setPrefHeight(275);
 		
-		vb.getChildren().addAll(lblViewUser,userTable);
+		
+		btnBackToMenu = new Button("Back To Menu");
+		btnBackToMenu.setOnAction(new EventHandler<ActionEvent>() {
+		
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				AdminLandingPage adp = new AdminLandingPage();
+				adp.show();
+				close();
+			}
+		});
+		
+		btnBackToMenu.setPrefSize(100, 50);
+		vb.getChildren().addAll(lblViewUser, userTable,btnBackToMenu);
 		vb.setAlignment(Pos.CENTER);
-		
+
 		root.setTop(vb);
 
 	}
@@ -58,7 +75,7 @@ public class AdminViewAllUserPage extends Stage {
 
 		TableColumn<User, String> userRole = new TableColumn<>("User Role");
 		userRole.setCellValueFactory(new PropertyValueFactory("userRole"));
-		
+
 		TableColumn<User, String> userName = new TableColumn<>("Username");
 		userName.setCellValueFactory(new PropertyValueFactory("userName"));
 
@@ -68,26 +85,24 @@ public class AdminViewAllUserPage extends Stage {
 		TableColumn<User, Void> actionColumn = new TableColumn<>("Action Column");
 		actionColumn.setCellFactory(e -> new TableCell<>() {
 			private final Button btnUpdateUser = new Button("Update User");
-			
+
 			@Override
 			protected void updateItem(Void item, boolean empty) {
-				super.updateItem(item,empty);
-				if(empty) {
+				super.updateItem(item, empty);
+				if (empty) {
 					setGraphic(null);
 					setOnMouseClicked(null);
-				}else {
+				} else {
 					setGraphic(btnUpdateUser);
-					btnUpdateUser.setOnAction(event ->{
+					btnUpdateUser.setOnAction(event -> {
 						User usr = getTableView().getItems().get(getIndex());
 						AdminUpdateUserPage aup = new AdminUpdateUserPage(usr);
-						
 						aup.showAndWait();
-						if(aup.isBtnPressed()) {
+						if (aup.isBtnPressed()) {
 							usr.setUserRole(aup.getNewRole().toString());
 							getTableView().refresh();
 						}
 					});
-				
 				}
 			}
 		});

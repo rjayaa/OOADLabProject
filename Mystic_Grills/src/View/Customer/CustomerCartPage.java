@@ -114,7 +114,7 @@ public class CustomerCartPage extends Stage {
 						if (qi.isBtnPressed()) {
 							selectedItem.setQuantity(qi.getQty());
 							getTableView().refresh();
-
+							System.out.println("Masok");
 						}
 					});
 
