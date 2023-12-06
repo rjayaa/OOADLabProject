@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 10:50 AM
+-- Generation Time: Dec 06, 2023 at 12:47 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -140,7 +140,8 @@ INSERT INTO `orderitem` (`orderId`, `menuItemId`, `quantity`) VALUES
 (14, 3, 32),
 (15, 5, 3321),
 (15, 4, 1),
-(16, 5, 21);
+(16, 5, 21),
+(17, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -195,8 +196,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`userId`, `userRole`, `userName`, `userEmail`, `userPassword`) VALUES
 (1, 'Admin', 'admin', 'admin', 'admin'),
-(2, 'Admin', 'abcd', 'abcd', 'abcd'),
-(3, 'Customer', 'jajaja', 'jaja@gmail.com', '123456');
+(2, 'Customer', 'abcd', 'abcd', 'abcd');
 
 --
 -- Indexes for dumped tables
