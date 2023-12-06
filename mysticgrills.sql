@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2023 at 10:00 PM
+-- Generation Time: Dec 06, 2023 at 01:02 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -65,10 +65,35 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`orderId`, `orderUser`, `orderItems`, `orderStatus`, `orderDate`, `orderTotal`) VALUES
-(2, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 20:56:13', 3),
-(2, 1, 'Grilled Salmon', 'Pending', '2023-12-05 20:56:13', 5),
-(2, 1, 'Spaghetti Bolognese', 'Pending', '2023-12-05 20:56:13', 2),
-(2, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 20:56:13', 3);
+(2, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 22:16:16', 5),
+(2, 1, 'Margherita Pizza', 'Pending', '2023-12-05 22:16:16', 5),
+(3, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 22:17:34', 5),
+(3, 1, 'Margherita Pizza', 'Pending', '2023-12-05 22:17:34', 5),
+(4, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 22:18:01', 5),
+(4, 1, 'Margherita Pizza', 'Pending', '2023-12-05 22:18:01', 5),
+(5, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 22:19:40', 5),
+(5, 1, 'Grilled Salmon', 'Pending', '2023-12-05 22:19:40', 5),
+(6, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:13:08', 5),
+(6, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:13:08', 23),
+(7, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:13:52', 23),
+(7, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:13:52', 12),
+(8, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:15:40', 21),
+(8, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:15:40', 32),
+(9, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:17:15', 3),
+(9, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:17:15', 2),
+(10, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:17:55', 3),
+(10, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:17:55', 12),
+(11, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:18:54', 12),
+(11, 1, 'Caesar Salad', 'Pending', '2023-12-05 23:18:54', 32),
+(12, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:21:04', 21),
+(12, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:21:04', 32),
+(13, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:23:29', 4),
+(13, 1, 'Caesar Salad', 'Pending', '2023-12-05 23:23:29', 2),
+(14, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:24:34', 21),
+(14, 1, 'Caesar Salad', 'Pending', '2023-12-05 23:24:34', 32),
+(15, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:30:14', 3321),
+(15, 1, 'Grilled Salmon', 'Pending', '2023-12-05 23:30:14', 1),
+(16, 1, 'Chicken Alfredo', 'Pending', '2023-12-05 23:35:19', 21);
 
 -- --------------------------------------------------------
 
@@ -87,12 +112,35 @@ CREATE TABLE `orderitem` (
 --
 
 INSERT INTO `orderitem` (`orderId`, `menuItemId`, `quantity`) VALUES
-(1, 5, 3),
-(1, 4, 4),
-(2, 5, 3),
-(2, 4, 5),
-(2, 1, 2),
-(2, 5, 3);
+(2, 5, 5),
+(2, 2, 5),
+(3, 5, 5),
+(3, 2, 5),
+(4, 5, 5),
+(4, 2, 5),
+(5, 5, 5),
+(5, 4, 5),
+(6, 5, 5),
+(6, 4, 23),
+(7, 4, 23),
+(7, 5, 12),
+(8, 5, 21),
+(8, 4, 32),
+(9, 5, 3),
+(9, 4, 2),
+(10, 5, 3),
+(10, 4, 12),
+(11, 5, 12),
+(11, 3, 32),
+(12, 5, 21),
+(12, 4, 32),
+(13, 5, 4),
+(13, 3, 2),
+(14, 5, 21),
+(14, 3, 32),
+(15, 5, 3321),
+(15, 4, 1),
+(16, 5, 21);
 
 -- --------------------------------------------------------
 
@@ -107,6 +155,25 @@ CREATE TABLE `receipt` (
   `receiptPaymentDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `receiptPaymentType` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `receipt`
+--
+
+INSERT INTO `receipt` (`receiptId`, `receiptOrder`, `receiptPaymentAmount`, `receiptPaymentDate`, `receiptPaymentType`) VALUES
+(1, 0, 120, '2023-12-05 22:18:01', 'Credit'),
+(6, 5, 145, '2023-12-05 22:19:40', 'Debit'),
+(7, 6, 415, '2023-12-05 23:13:08', 'Debit'),
+(8, 7, 513, '2023-12-05 23:13:52', 'Cash'),
+(9, 8, 774, '2023-12-05 23:15:40', 'Debit'),
+(10, 9, 72, '2023-12-05 23:17:15', 'Debit'),
+(11, 10, 222, '2023-12-05 23:17:55', 'Debit'),
+(12, 11, 424, '2023-12-05 23:18:54', 'Debit'),
+(13, 12, 774, '2023-12-05 23:21:04', 'Debit'),
+(14, 13, 72, '2023-12-05 23:23:29', 'Cash'),
+(15, 14, 550, '2023-12-05 23:24:34', 'Debit'),
+(16, 15, 46509, '2023-12-05 23:30:14', 'Debit'),
+(17, 16, 294, '2023-12-05 23:35:19', 'Debit');
 
 -- --------------------------------------------------------
 
@@ -152,13 +219,6 @@ ALTER TABLE `orderitem`
   ADD KEY `menuItemId` (`menuItemId`);
 
 --
--- Indexes for table `receipt`
---
-ALTER TABLE `receipt`
-  ADD PRIMARY KEY (`receiptId`),
-  ADD KEY `receiptOrder` (`receiptOrder`);
-
---
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -175,12 +235,6 @@ ALTER TABLE `menuitem`
   MODIFY `menuItemId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `receipt`
---
-ALTER TABLE `receipt`
-  MODIFY `receiptId` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
@@ -195,12 +249,6 @@ ALTER TABLE `user`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`orderUser`) REFERENCES `user` (`userId`);
-
---
--- Constraints for table `receipt`
---
-ALTER TABLE `receipt`
-  ADD CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`receiptOrder`) REFERENCES `order` (`orderId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
