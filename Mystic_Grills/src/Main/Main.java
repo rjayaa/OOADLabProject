@@ -16,8 +16,8 @@ public class Main extends Application {
 	}
 
 	public void initScene() {
-//		LoginView lg = new LoginView();
-		CustomerPage lg = new CustomerPage();
+		LoginView lg = new LoginView();
+//		CustomerPage lg = new CustomerPage();
 		lg.show();
 	}
 
