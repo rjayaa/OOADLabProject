@@ -21,12 +21,12 @@ public class CustomerLandingPage extends Stage {
 	private Scene scene;
 	private Button btnOrder,btnViewOrder,btnExit;
 	private Label lblWelcome;
-	private User currentUser;
+	
 	
 	public CustomerLandingPage() {
 		super(StageStyle.DECORATED);
 		// get user session
-		this.currentUser = Singleton.getInstance().getCurrentUser();
+		
 		root = new BorderPane();
 		scene = new Scene(root,600,400);
 		this.setTitle("Mystic Grills");

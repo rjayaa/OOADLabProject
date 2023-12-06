@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 01:02 AM
+-- Generation Time: Dec 06, 2023 at 10:50 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -194,7 +194,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userId`, `userRole`, `userName`, `userEmail`, `userPassword`) VALUES
-(1, 'admin', 'admin', 'admin', 'admin');
+(1, 'Admin', 'admin', 'admin', 'admin'),
+(2, 'Admin', 'abcd', 'abcd', 'abcd'),
+(3, 'Customer', 'jajaja', 'jaja@gmail.com', '123456');
 
 --
 -- Indexes for dumped tables
@@ -238,7 +240,7 @@ ALTER TABLE `menuitem`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- Constraints for dumped tables
@@ -248,7 +250,20 @@ ALTER TABLE `user`
 -- Constraints for table `order`
 --
 ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`orderUser`) REFERENCES `user` (`userId`);
+  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`orderUser`) REFERENCES `user` (`userId`),
+  ADD CONSTRAINT `order_ibfk_2` FOREIGN KEY (`orderId`) REFERENCES `orderitem` (`orderId`);
+
+--
+-- Constraints for table `orderitem`
+--
+ALTER TABLE `orderitem`
+  ADD CONSTRAINT `orderitem_ibfk_1` FOREIGN KEY (`menuItemId`) REFERENCES `menuitem` (`menuItemId`);
+
+--
+-- Constraints for table `receipt`
+--
+ALTER TABLE `receipt`
+  ADD CONSTRAINT `receipt_ibfk_1` FOREIGN KEY (`receiptOrder`) REFERENCES `order` (`orderId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

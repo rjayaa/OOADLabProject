@@ -64,7 +64,7 @@ public class SignupView extends Stage {
 				// TODO Auto-generated method stub
 				try {
 					
-					int userid = 1 + orderController.getLastId();
+					int userid = 1 + usercontroller.getLastId();
 					String username = txtUsername.getText();
 					String email = txtEmail.getText();
 					String password = txtPassword.getText();

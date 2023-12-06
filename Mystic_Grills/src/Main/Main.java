@@ -1,5 +1,6 @@
 package Main;
 
+import View.Admin.AdminLandingPage;
 import View.Global.LoginView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -17,6 +18,7 @@ public class Main extends Application {
 	public void initScene() {
 		LoginView lg = new LoginView();
 //		CustomerOrderStatusPage lg = new CustomerOrderStatusPage();
+//		AdminLandingPage lg = new AdminLandingPage();
 		lg.show();
 	}
 

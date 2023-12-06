@@ -1,6 +1,5 @@
-package View.Global;
+package Controller.Order;
 
-import Controller.Order.OrderController;
 import Model.MenuItem.MenuItem;
 import Model.OrderItem.OrderItem;
 import javafx.event.ActionEvent;
@@ -24,9 +23,7 @@ public class QuantityInput extends Stage {
 	private BorderPane root;
 	private VBox contentArea;
 
-	// Controller
-//	private static UserController usercontroller = new UserController();
-//	private static Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+	
 
 	// Component
 	private Label lblFoodName, lblQty;

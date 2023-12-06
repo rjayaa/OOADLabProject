@@ -1,13 +1,12 @@
 package View.Customer;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import Controller.Menu.MenuController;
 import Controller.Order.OrderController;
+import Controller.Order.QuantityInput;
 import Model.MenuItem.MenuItem;
 import Model.OrderItem.OrderItem;
-import View.Global.QuantityInput;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,6 +21,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -36,11 +36,11 @@ public class CustomerMenuPage extends Stage {
 
 	// component
 	private Label lblMenu;
-	private Button btnViewCart;
+	private Button btnViewCart, btnBackToMenu;;
 	ArrayList<OrderItem> selectedItems = new ArrayList<>();
 	// controller
-	MenuController fc = new MenuController();
-	
+	OrderController orderController = new OrderController();
+	MenuController menuController = new MenuController();
 
 	public CustomerMenuPage() {
 		super(StageStyle.DECORATED);
@@ -50,6 +50,7 @@ public class CustomerMenuPage extends Stage {
 		this.setScene(scene);
 
 		VBox vb = new VBox(40);
+		HBox hb = new HBox(20);
 
 		lblMenu = new Label("Our Menu!");
 		lblMenu.setFont(Font.font("Arial", FontWeight.BOLD, 20));
@@ -62,10 +63,25 @@ public class CustomerMenuPage extends Stage {
 		loadMenuItemsData(menuItemsTable);
 		btnViewCart = new Button("View My Cart");
 		btnViewCart.setPrefSize(100,50);
-		
-		vb.getChildren().addAll(lblMenu, menuItemsTable, btnViewCart);
+		btnBackToMenu = new Button("Back");
+		btnBackToMenu.setPrefSize(100,50);
+		hb.getChildren().addAll(btnBackToMenu, btnViewCart);
+		hb.setAlignment(Pos.CENTER);
+		vb.getChildren().addAll(lblMenu, menuItemsTable, hb);
 		vb.setAlignment(Pos.TOP_CENTER);
 		
+		
+		btnBackToMenu.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				// TODO Auto-generated method stub
+				CustomerLandingPage ccp = new CustomerLandingPage();
+				ccp.show();
+				Stage currentStage = (Stage) btnViewCart.getScene().getWindow(); 
+				currentStage.close();
+			}
+		});
 		
 		btnViewCart.setOnAction(new EventHandler<ActionEvent>() {
 			
@@ -95,7 +111,7 @@ public class CustomerMenuPage extends Stage {
 	}
 
 	private void loadMenuItemsData(TableView<MenuItem> menuItemsTable) {
-		ArrayList<MenuItem> menuItemList = fc.showMenuItems();
+		ArrayList<MenuItem> menuItemList = menuController.showMenuItems();
 		menuItemsTable.getItems().setAll(menuItemList);
 	}
 
@@ -126,7 +142,7 @@ public class CustomerMenuPage extends Stage {
 						QuantityInput qi = new QuantityInput(curr);
 						qi.showAndWait();
 						if (qi.isBtnPressed()) {
-							int orderId = fc.getLastId() + 1;
+							int orderId = orderController.getLastId() + 1;
 							OrderItem orderItem = new OrderItem(orderId, curr.getMenuItemId(),qi.getQty());
 							selectedItems.add(orderItem);
 						}

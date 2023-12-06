@@ -3,8 +3,8 @@ package View.Customer;
 import java.util.ArrayList;
 
 import Controller.Order.OrderController;
+import Controller.Order.QuantityInput;
 import Model.OrderItem.OrderItem;
-import View.Global.QuantityInput;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

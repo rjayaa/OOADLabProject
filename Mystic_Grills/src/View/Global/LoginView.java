@@ -1,8 +1,12 @@
 package View.Global;
 
+import java.lang.System.Logger;
+
 import Controller.User.UserController;
 import DBConnection.Singleton;
 import Model.User.User;
+import View.Admin.AdminLandingPage;
+import View.Admin.AdminUpdateUserPage;
 import View.Customer.CustomerLandingPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -69,10 +73,24 @@ public class LoginView extends Stage {
 						/* logic bwt simpen current customer */
 						User loggedInUser = usercontroller.getUserByEmail(email);
 						// save current user to usersession singleton
+						
 						Singleton.getInstance().setCurrentUser(loggedInUser);
-						CustomerLandingPage lg = new CustomerLandingPage();
-//						CustomerPage cp = new CustomerPage();
-						lg.show();
+						
+					
+						if(loggedInUser.getUserRole().equals("Customer")) {
+							CustomerLandingPage lg = new CustomerLandingPage();
+							lg.show();
+						}else if(loggedInUser.getUserRole().equals("Admin")) {
+							AdminLandingPage adp = new AdminLandingPage();
+							adp.show();
+						}else if(loggedInUser.getUserRole().equals("Cashier")) {
+							
+						}else if(loggedInUser.getUserRole().equals("Waiter")) {
+							
+						}else if(loggedInUser.getUserRole().equals("Chef")) {
+							
+						}
+						
 						
 						Stage stg = (Stage) btnLogin.getScene().getWindow();
 						stg.close();
