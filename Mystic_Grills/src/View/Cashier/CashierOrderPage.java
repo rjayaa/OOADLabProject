@@ -22,6 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -41,7 +42,7 @@ public class CashierOrderPage extends Stage{
 	public CashierOrderPage() {
 		super(StageStyle.DECORATED);
 		root = new BorderPane();
-		scene = new Scene(root, 800, 600);
+		scene = new Scene(root, 1400, 600);
 		this.setTitle("Mystic Grills");
 		this.setScene(scene);
 		VBox vb = new VBox(40);
@@ -98,7 +99,8 @@ public class CashierOrderPage extends Stage{
 		actionColumn.setCellFactory(e -> new TableCell<>() {
 			private final Button updateButton = new Button("Update Order Status");
 			private final Button viewReceiptButton = new Button("View Receipt");
-
+			private final HBox buttonsBox = new HBox(updateButton, viewReceiptButton);
+			
 			@Override
 			protected void updateItem(Void item, boolean empty) {
 				super.updateItem(item, empty);
@@ -113,10 +115,12 @@ public class CashierOrderPage extends Stage{
 					});
 					
 					viewReceiptButton.setOnAction(event -> {
-						
+						Order curr = getTableView().getItems().get(getIndex());
+						CashierViewReceipt cvr = new CashierViewReceipt(curr.getOrderId());
+						cvr.show();
 					});
 					
-					setGraphic(updateButton);
+					setGraphic(buttonsBox);
 				}
 			}
 		});

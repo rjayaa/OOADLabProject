@@ -14,6 +14,7 @@ import DBConnection.Singleton;
 import Model.MenuItem.MenuItem;
 import Model.Order.Order;
 import Model.OrderItem.OrderItem;
+import Model.Receipt.Receipt;
 
 
 public class OrderController {
@@ -37,6 +38,29 @@ public class OrderController {
 				int orderTotal = rs.getInt("orderTotal");
 				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
 						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public ArrayList<Order> showOrderListById(int targetId){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT o.orderItems, mi.menuItemPrice, o.orderTotal FROM `order` AS o JOIN `menuitem` AS mi ON o.orderItems = mi.menuItemName WHERE o.orderId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, targetId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String orderItems = rs.getString("orderItems");
+	            int menuItemPrice = rs.getInt("menuItemPrice");
+	            int orderTotal = rs.getInt("orderTotal");
+	            orderItem.add(new Order(targetId, 0, orderItems, Integer.toString(menuItemPrice), null, orderTotal));
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -455,6 +479,28 @@ public class OrderController {
 			// TODO: handle exception
 		}
 		return 0;
+	}
+	
+	public Receipt getReceiptByOrderId(int orderId) {
+		String query = "SELECT * FROM `receipt` WHERE receiptOrder = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				int receiptOrder = rs.getInt("receiptOrder");
+				int receiptPaymentAmount = rs.getInt("receiptPaymentAmount");
+				String receiptPaymentType = rs.getString("receiptPaymentType");
+				Receipt receipt = new Receipt(receiptOrder, receiptPaymentAmount, null, receiptPaymentType);
+				return receipt;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 
 }
