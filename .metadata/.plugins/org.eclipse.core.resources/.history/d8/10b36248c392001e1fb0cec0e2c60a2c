@@ -1,0 +1,5 @@
+package Controller.Order;
+
+public class QuantityInput {
+
+}

@@ -1,0 +1,22 @@
+package model;
+
+public class Tugas {
+	// kalau ada keterangan fase, maka guanakan state pattern
+	private String namaTugas;
+
+	public Tugas(String namaTugas) {
+		super();
+		this.namaTugas = namaTugas;
+	}
+
+	public String getNamaTugas() {
+		return namaTugas;
+	}
+
+	public void setNamaTugas(String namaTugas) {
+		this.namaTugas = namaTugas;
+	}
+	
+	
+	
+}

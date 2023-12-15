@@ -1,0 +1,19 @@
+package state;
+
+import model.Tugas;
+
+public class Selesai implements IState{
+
+	@Override
+	public void changeNext(Tugas t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void displayState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

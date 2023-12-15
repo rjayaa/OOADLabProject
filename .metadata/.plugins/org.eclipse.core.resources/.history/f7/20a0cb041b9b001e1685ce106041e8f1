@@ -1,0 +1,5 @@
+package model;
+
+public class KumpulanTugas {
+	private ArrayList<Tugas>kumpulanTugas;
+}

@@ -1,0 +1,19 @@
+package state;
+
+import model.Tugas;
+
+public class SedangDibuat implements IState{
+
+	@Override
+	public void changeNext(Tugas t) {
+		// TODO Auto-generated method stub
+		t.setStatusTugas(new SedangBerjalan());
+	}
+
+	@Override
+	public void displayState() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

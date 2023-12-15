@@ -1,0 +1,23 @@
+package model;
+
+import java.util.ArrayList;
+
+public class KumpulanTugas {
+	private ArrayList<Tugas> kumpulanTugas;
+	
+	public KumpulanTugas() {
+		kumpulanTugas = new ArrayList<>();
+	}
+	
+	public void tambahTugas(Tugas t) {
+		kumpulanTugas.add(t);
+	}
+	
+	
+	public void tampilkanSemuaTugas() {
+		System.out.println(kumpulanTugas.);
+	}
+
+	
+	
+}
