@@ -46,4 +46,9 @@
     <fullyQualifiedTypeName name="View.Customer.CustomerLandingPage"/>
     <fullyQualifiedTypeName name="View.Customer.CustomerOrderStatusPage"/>
     <fullyQualifiedTypeName name="javafx.event.EventHandler"/>
+    <fullyQualifiedTypeName name="state.IState"/>
+    <fullyQualifiedTypeName name="state.SedangBerjalan"/>
+    <fullyQualifiedTypeName name="state.Selesai"/>
+    <fullyQualifiedTypeName name="iterator.IIterator"/>
+    <fullyQualifiedTypeName name="model.KumpulanTugas"/>
 </qualifiedTypeNameHistroy>
