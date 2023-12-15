@@ -7,7 +7,10 @@ import DBConnection.Singleton;
 import Model.User.User;
 import View.Admin.AdminLandingPage;
 import View.Admin.AdminUpdateUserPage;
+import View.Cashier.CashierLandingPage;
+import View.Chef.ChefLandingPage;
 import View.Customer.CustomerLandingPage;
+import View.Waiter.WaiterLandingPage;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -84,11 +87,14 @@ public class LoginView extends Stage {
 							AdminLandingPage adp = new AdminLandingPage();
 							adp.show();
 						}else if(loggedInUser.getUserRole().equals("Cashier")) {
-							
+							CashierLandingPage clp = new CashierLandingPage();
+							clp.show();
 						}else if(loggedInUser.getUserRole().equals("Waiter")) {
-							
+							WaiterLandingPage wlp = new WaiterLandingPage();
+							wlp.show();
 						}else if(loggedInUser.getUserRole().equals("Chef")) {
-							
+							ChefLandingPage clp = new ChefLandingPage();
+							clp.show();
 						}
 						
 						

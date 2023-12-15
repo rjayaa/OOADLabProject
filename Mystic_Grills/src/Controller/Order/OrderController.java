@@ -14,6 +14,7 @@ import DBConnection.Singleton;
 import Model.MenuItem.MenuItem;
 import Model.Order.Order;
 import Model.OrderItem.OrderItem;
+import Model.Receipt.Receipt;
 
 
 public class OrderController {
@@ -45,6 +46,202 @@ public class OrderController {
 		return orderItem;
 		
 	}
+	
+	public ArrayList<Order> showOrderListById(int targetId){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT o.orderItems, mi.menuItemPrice, o.orderTotal FROM `order` AS o JOIN `menuitem` AS mi ON o.orderItems = mi.menuItemName WHERE o.orderId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, targetId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				String orderItems = rs.getString("orderItems");
+	            int menuItemPrice = rs.getInt("menuItemPrice");
+	            int orderTotal = rs.getInt("orderTotal");
+	            orderItem.add(new Order(targetId, 0, orderItems, Integer.toString(menuItemPrice), null, orderTotal));
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public ArrayList<Order> checkOrderList(int currentOrderId, String orderName){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, currentOrderId);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				updateReceipt(currentOrderId);
+			}
+			else {
+				deleteReceipt(currentOrderId);
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public ArrayList<Order> showOrderListForCustomer(int userId){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderUser = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int orderId = rs.getInt("orderId");
+				int orderUser = rs.getInt("orderUser");
+				String orderItems = rs.getString("orderItems");
+				String orderStatus = rs.getString("orderStatus");
+				Timestamp timestamp = rs.getTimestamp("orderDate");
+				int orderTotal = rs.getInt("orderTotal");
+				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public ArrayList<Order> showOrderListForCashier(){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderStatus = 'Pending'";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int orderId = rs.getInt("orderId");
+				int orderUser = rs.getInt("orderUser");
+				String orderItems = rs.getString("orderItems");
+				String orderStatus = rs.getString("orderStatus");
+				Timestamp timestamp = rs.getTimestamp("orderDate");
+				int orderTotal = rs.getInt("orderTotal");
+				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public void updateOrderStatusByCashier(int orderId, String orderItem) {
+		String query = "UPDATE `order` SET orderStatus = 'Paid' WHERE orderId = ? AND orderItems = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setString(2, orderItem);	
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Order> showOrderListForChef(){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderStatus = 'Paid' OR orderStatus = 'Pending'";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int orderId = rs.getInt("orderId");
+				int orderUser = rs.getInt("orderUser");
+				String orderItems = rs.getString("orderItems");
+				String orderStatus = rs.getString("orderStatus");
+				Timestamp timestamp = rs.getTimestamp("orderDate");
+				int orderTotal = rs.getInt("orderTotal");
+				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public void updateOrderStatusByChef(int orderId, String orderItem) {
+		String query = "UPDATE `order` SET orderStatus = 'Prepared' WHERE orderId = ? AND orderItems = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setString(2, orderItem);
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Order> showOrderListForWaiter(){
+		ArrayList<Order> orderItem = new ArrayList<>();
+		
+		String query = "SELECT * FROM `order` WHERE orderStatus = 'Prepared' OR orderStatus = 'Pending'";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				int orderId = rs.getInt("orderId");
+				int orderUser = rs.getInt("orderUser");
+				String orderItems = rs.getString("orderItems");
+				String orderStatus = rs.getString("orderStatus");
+				Timestamp timestamp = rs.getTimestamp("orderDate");
+				int orderTotal = rs.getInt("orderTotal");
+				orderItem.add(new Order(orderId,orderUser,orderItems,orderStatus,timestamp,orderTotal));
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return orderItem;
+		
+	}
+	
+	public void updateOrderStatusByWaiter(int orderId, String orderItem) {
+		String query = "UPDATE `order` SET orderStatus = 'Served' WHERE orderId = ? AND orderItems = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setString(2, orderItem);
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void insertOrderItem(ArrayList<OrderItem> orderList) {
 		String query = "INSERT INTO orderitem(orderId, menuItemId, quantity) VALUES (?,?,?)";
 
@@ -81,8 +278,6 @@ public class OrderController {
 		}
 	}
 
-
-
 	public void insertReceipt(int receiptId,int receiptOrder, int receiptPaymentAmount, Timestamp receiptPaymentDate,
 			String receiptPaymentType) {
 		String query = "INSERT INTO receipt(receiptId,receiptOrder, receiptPaymentAmount, receiptPaymentDate,receiptPaymentType) VALUES (?,?,?,?,?)";
@@ -97,6 +292,67 @@ public class OrderController {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+	}
+	
+	public void updateReceipt(int receiptOrder) {
+		
+		int totalPrice = getPriceByOrderId(receiptOrder);
+		
+		String query = "UPDATE `receipt` SET receiptPaymentAmount = ? WHERE receiptOrder = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, totalPrice);
+			ps.setInt(2, receiptOrder);
+			ps.executeUpdate();
+			ps.close();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteOrder(int orderId, String orderItem) {
+		String query = "DELETE FROM `order` WHERE orderId = ? AND orderItems = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setString(2, orderItem);
+			ps.executeUpdate();
+			
+			deleteOrderItem(orderId, getItemIdFromItemName(orderItem));
+			checkOrderList(orderId, orderItem);
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void deleteOrderItem(int orderId, int orderItemId) {
+		String query = "DELETE FROM `orderitem` WHERE orderId = ? AND menuItemId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.setInt(2, orderItemId);
+			ps.executeUpdate();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void deleteReceipt(int orderId) {
+		String query = "DELETE FROM `receipt` WHERE receiptOrder = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 
@@ -162,6 +418,89 @@ public class OrderController {
 		return lastId;
 	}
 
-
+	public int getStatusByOrderId(int orderId) {
+		String query = "SELECT orderStatus FROM `order` WHERE orderId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				if(rs.getString("orderStatus") == "Pending") {
+					return 0;
+				}
+				else if(rs.getString("orderStatus") == "Paid") {
+					return 1;
+				}
+				else {
+					return -1;
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+		return -1;
+	}
+	
+	public int getItemIdFromItemName(String itemName) {
+		String query = "SELECT * FROM `menuitem` WHERE menuItemName = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, itemName);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt("menuItemId");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
+	}
+	
+	public int getPriceByOrderId(int orderId) {
+		String query = "SELECT SUM(o.quantity * m.menuItemPrice) AS TotalPrice FROM `orderitem` AS o JOIN `menuitem` AS m ON o.menuItemId=m.menuItemId WHERE o.orderId = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				return rs.getInt("TotalPrice");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return 0;
+	}
+	
+	public Receipt getReceiptByOrderId(int orderId) {
+		String query = "SELECT * FROM `receipt` WHERE receiptOrder = ?";
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, orderId);
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				int receiptOrder = rs.getInt("receiptOrder");
+				int receiptPaymentAmount = rs.getInt("receiptPaymentAmount");
+				String receiptPaymentType = rs.getString("receiptPaymentType");
+				Receipt receipt = new Receipt(receiptOrder, receiptPaymentAmount, null, receiptPaymentType);
+				return receipt;
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
 
 }
