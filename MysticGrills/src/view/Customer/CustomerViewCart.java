@@ -61,7 +61,7 @@ public class CustomerViewCart {
 
             Order order = new Order(customerController.getLastIdOrder() + 1,
                     Singleton.getInstance().getCurrentUser().getUserId(), orderItemsString,
-                    "Pending", new Timestamp(System.currentTimeMillis()),
+                    "Unpaid", new Timestamp(System.currentTimeMillis()),
                     totalQuantity);
 
             customerController.insertOrder(order);

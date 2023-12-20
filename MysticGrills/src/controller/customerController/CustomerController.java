@@ -10,7 +10,7 @@ import model.Receipt;
 import util.Singleton;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -38,6 +38,59 @@ public class CustomerController {
         }
 
         return menuItem;
+    }
+
+    // Order Controller
+    public ArrayList<Order> getAllOrder() {
+        ArrayList<Order> order = new ArrayList<>();
+        String query = "SELECT * FROM `order`";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int orderId = resultSet.getInt("orderId");
+                int orderUser = resultSet.getInt("orderUser");
+                String orderItemsString = resultSet.getString("orderItems");
+                String orderStatus = resultSet.getString("orderStatus");
+                java.sql.Timestamp orderDate = resultSet.getTimestamp("orderDate");
+                int orderTotal = resultSet.getInt("orderTotal");
+
+                ArrayList<String> orderItems = new ArrayList<>(Arrays.asList(orderItemsString.split(",")));
+
+                order.add(new Order(orderId, orderUser, orderItems, orderStatus, orderDate, orderTotal));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return order;
+    }
+
+    public ArrayList<Order> getAllOrderedOrders() {
+        ArrayList<Order> order = new ArrayList<>();
+        String query = "SELECT * FROM `order` WHERE orderStatus = 'Served'";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                int orderId = resultSet.getInt("orderId");
+                int orderUser = resultSet.getInt("orderUser");
+                String orderItemsString = resultSet.getString("orderItems");
+                String orderStatus = resultSet.getString("orderStatus");
+                java.sql.Timestamp orderDate = resultSet.getTimestamp("orderDate");
+                int orderTotal = resultSet.getInt("orderTotal");
+
+                ArrayList<String> orderItems = new ArrayList<>(Arrays.asList(orderItemsString.split(",")));
+
+                order.add(new Order(orderId, orderUser, orderItems, orderStatus, orderDate, orderTotal));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return order;
     }
 
     public int getLastId() {
@@ -136,6 +189,7 @@ public class CustomerController {
         }
     }
 
+    // Receipt Controller
     public void insertReceipt(Receipt receipt) {
         String query = "INSERT INTO receipt (receiptOrder, receiptPaymentAmount, receiptPaymentDate, receiptPaymentType) VALUES (?, ?, ?, ?)";
         try {
@@ -163,8 +217,9 @@ public class CustomerController {
             }
 
         } catch (Exception e) {
-            // TODO: handle exception
+
         }
         return 0;
     }
+
 }

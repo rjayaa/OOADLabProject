@@ -16,6 +16,7 @@ import java.sql.Statement;
 public class AdminController {
     private static Connection connection = Singleton.getInstance().getConnection();
 
+    // User Controller
     public ArrayList<User> getAllUser() {
         ArrayList<User> user = new ArrayList<>();
         String query = "SELECT * FROM User";
@@ -63,6 +64,7 @@ public class AdminController {
         }
     }
 
+    // Menu Item Controller
     public ArrayList<MenuItem> getAllMenuItem() {
         ArrayList<MenuItem> menuItem = new ArrayList<>();
         String query = "SELECT * FROM menuItem";

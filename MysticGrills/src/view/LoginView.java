@@ -3,6 +3,7 @@ package view;
 import controller.LoginController;
 import controller.RegisterController;
 import controller.adminController.AdminController;
+import controller.cashierController.CashierController;
 import controller.customerController.CustomerController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,7 @@ import javafx.stage.Stage;
 import model.User;
 import util.Singleton;
 import view.Admin.AdminView;
+import view.Cashier.CashierView;
 import view.Customer.CustomerView;
 
 public class LoginView {
@@ -82,6 +84,10 @@ public class LoginView {
                     CustomerController customerController = new CustomerController();
                     CustomerView customerView = new CustomerView(customerStage, customerController);
                     customerView.show(stage);
+                } else if (role.equals("Cashier")) {
+                    CashierController cashierController = new CashierController();
+                    Stage cashierStage = new Stage();
+                    CashierView cashierView = new CashierView(cashierStage, cashierController);
                 }
             }
         }

@@ -27,7 +27,9 @@ public class CustomerView {
             customerAddOrder.show(customerAddOrderStage);
         });
         Button viewOrderButton = new Button("View Order");
-
+        viewOrderButton.setOnAction(e -> {
+            new CustomerViewOrderMenu(new Stage(), customerController);
+        });
         addOrderButton.setPrefWidth(100);
         addOrderButton.setPrefHeight(50);
         viewOrderButton.setPrefWidth(100);

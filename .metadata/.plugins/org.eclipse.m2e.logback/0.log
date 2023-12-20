@@ -87,3 +87,13 @@ java.io.FileNotFoundException: C:\Users\rjayaa\Documents\OOADLabProject\.metadat
 2023-12-13 23:24:27,428 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
 2023-12-15 13:56:23,684 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
 2023-12-16 00:14:40,818 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2023-12-16 11:38:48,127 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2023-12-16 20:21:21,409 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2023-12-16 20:21:21,942 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2023-12-17 13:44:13,961 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2023-12-18 14:04:23,437 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2023-12-18 14:04:23,938 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2023-12-18 21:24:44,827 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2023-12-19 15:05:30,182 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2023-12-19 15:36:30,421 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2023-12-19 16:09:37,027 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
