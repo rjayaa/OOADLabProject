@@ -3,6 +3,7 @@ package view;
 import controller.LoginController;
 import controller.RegisterController;
 import controller.adminController.AdminController;
+import controller.customerController.CustomerController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,9 +13,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.User;
+import util.Singleton;
 import view.Admin.AdminView;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import view.Customer.CustomerView;
 
 public class LoginView {
     private TextField emailField;
@@ -65,14 +67,23 @@ public class LoginView {
         String email = emailField.getText();
         String password = passwordField.getText();
         LoginController controller = new LoginController();
-        if (controller.login(email, password)) {
-            if (controller.getRoleByEmail(email).equals("Admin")) {
-                Stage adminStage = new Stage();
-                AdminController adminController = new AdminController();
-                AdminView adminView = new AdminView(adminStage, adminController);
-                adminView.show(stage);
+        if (controller != null && controller.login(email, password)) {
+            User currUser = controller.getUserByEmail(email);
+            Singleton.getInstance().setCurrentUser(currUser);
+            String role = controller.getRoleByEmail(email);
+            if (role != null) {
+                if (role.equals("Admin")) {
+                    Stage adminStage = new Stage();
+                    AdminController adminController = new AdminController();
+                    AdminView adminView = new AdminView(adminStage, adminController);
+                    adminView.show(stage);
+                } else if (role.equals("Customer")) {
+                    Stage customerStage = new Stage();
+                    CustomerController customerController = new CustomerController();
+                    CustomerView customerView = new CustomerView(customerStage, customerController);
+                    customerView.show(stage);
+                }
             }
         }
-
     }
 }

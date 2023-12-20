@@ -13,7 +13,6 @@ import javafx.scene.control.Alert.AlertType;
 
 public class LoginController {
     private User user;
-    private static Connection connection = Singleton.getInstance().getConnection();
 
     public boolean login(String email, String password) {
         if (email == null || email.trim().isEmpty()) {
@@ -32,6 +31,7 @@ public class LoginController {
 
         String query = "SELECT userEmail FROM user WHERE userEmail = ? AND userPassword = ?";
         try {
+            Connection connection = Singleton.getInstance().getConnection();
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, email);
             ps.setString(2, password);
@@ -54,20 +54,53 @@ public class LoginController {
     }
 
     public String getRoleByEmail(String email) {
-        String query = "SELECT userRole FROM user WHERE userEmail = ?";
+        String role = null;
+        Connection connection = Singleton.getInstance().getConnection();
         try {
-            PreparedStatement ps = connection.prepareStatement(query);
-            ps.setString(1, email);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                return rs.getString("userRole");
-            } else {
-                return null;
+
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement("SELECT userRole FROM user WHERE userEmail = ?");
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                role = resultSet.getString("userRole");
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return role;
+    }
+
+    public User getUserByEmail(String email) {
+        User user = null;
+        String query = "SELECT * FROM user WHERE userEmail = ?";
+        try (Connection connection = Singleton.getInstance().getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int userId = resultSet.getInt("userId");
+                String userRole = resultSet.getString("userRole");
+                String userName = resultSet.getString("userName");
+                String userEmail = resultSet.getString("userEmail");
+                String userPassword = resultSet.getString("userPassword");
+
+                user = new User(userId, userRole, userName, userEmail, userPassword);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return user;
     }
 
 }

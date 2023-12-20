@@ -65,7 +65,6 @@ public class RegisterController {
     public int getLastId() {
         int lastId = 1;
         String query = "SELECT userId FROM user ORDER BY userId DESC LIMIT 1";
-
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -92,7 +91,6 @@ public class RegisterController {
     }
 
     public void insertRegisterUser(User user) {
-        // Insert user into database
         String query = "INSERT INTO user (userId, userRole,userName,userEmail,userPassword) VALUES (?,?,?,?,?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ps.setInt(1, user.getUserId());
