@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 
 public class CustomerController {
     private static Connection connection = Singleton.getInstance().getConnection();
@@ -220,6 +221,33 @@ public class CustomerController {
 
         }
         return 0;
+    }
+
+    public ArrayList<Receipt> getAllReceiptsByUserId(int userId) {
+        ArrayList<Receipt> receipts = new ArrayList<>();
+        String query = "SELECT * FROM receipt INNER JOIN `order` ON receipt.receiptOrder = `order`.orderId WHERE `order`.orderUser = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int receiptId = resultSet.getInt("receiptId");
+                int receiptOrderId = resultSet.getInt("receiptOrder");
+                int receiptPaymentAmount = resultSet.getInt("receiptPaymentAmount");
+                Timestamp receiptPaymentDate = resultSet.getTimestamp("receiptPaymentDate");
+                String receiptPaymentType = resultSet.getString("receiptPaymentType");
+
+                Receipt receipt = new Receipt(receiptId, receiptOrderId, receiptPaymentAmount, receiptPaymentDate,
+                        receiptPaymentType);
+                receipts.add(receipt);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return receipts;
     }
 
 }

@@ -91,13 +91,12 @@ public class RegisterController {
     }
 
     public void insertRegisterUser(User user) {
-        String query = "INSERT INTO user (userId, userRole,userName,userEmail,userPassword) VALUES (?,?,?,?,?)";
+        String query = "INSERT INTO user (userRole, userName, userEmail, userPassword) VALUES (?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setInt(1, user.getUserId());
-            ps.setString(2, "Customer");
-            ps.setString(3, user.getUserName());
-            ps.setString(4, user.getUserEmail());
-            ps.setString(5, user.getPassword());
+            ps.setString(1, "Customer");
+            ps.setString(2, user.getUserName());
+            ps.setString(3, user.getUserEmail());
+            ps.setString(4, user.getPassword());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

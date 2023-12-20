@@ -12,9 +12,9 @@ import model.Order;
 import util.Singleton;
 
 public class ChefController {
-    private static Connection connection = Singleton.getInstance().getConnection();
 
     public ArrayList<Order> getAllOrder() {
+        Connection connection = Singleton.getInstance().getConnection();
         ArrayList<Order> order = new ArrayList<>();
         String query = "SELECT * FROM `order` WHERE orderStatus = 'Pending'";
 
@@ -41,6 +41,7 @@ public class ChefController {
     }
 
     public void updateOrderStatusById(int id) {
+        Connection connection = Singleton.getInstance().getConnection();
         String query = "UPDATE `order` SET orderStatus = ? WHERE orderId = ?";
 
         try {

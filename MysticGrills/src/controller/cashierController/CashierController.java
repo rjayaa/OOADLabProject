@@ -12,10 +12,10 @@ import model.Order;
 import util.Singleton;
 
 public class CashierController {
-    private static Connection connection = Singleton.getInstance().getConnection();
 
     public ArrayList<Order> getAllOrder() {
         ArrayList<Order> order = new ArrayList<>();
+        Connection connection = Singleton.getInstance().getConnection();
         String query = "SELECT * FROM `order` WHERE orderStatus = 'Unpaid'";
 
         try {
@@ -41,6 +41,7 @@ public class CashierController {
     }
 
     public void updateOrderStatusById(int id) {
+        Connection connection = Singleton.getInstance().getConnection();
         String query = "UPDATE `order` SET orderStatus = ? WHERE orderId = ?";
 
         try {

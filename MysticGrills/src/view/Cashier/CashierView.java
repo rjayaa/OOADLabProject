@@ -22,6 +22,7 @@ public class CashierView {
     private CashierController cashierController;
     private TableView<Order> tableView;
     private Button button;
+    private VBox vbox;
 
     public CashierView(Stage stage, CashierController cashierController) {
         this.cashierController = cashierController;
@@ -32,7 +33,6 @@ public class CashierView {
         button.setPrefWidth(100);
         button.setPrefHeight(50);
         button.setOnAction(event -> {
-            stage.close();
         });
 
         Button paidButton = new Button("Paid");
@@ -132,11 +132,14 @@ public class CashierView {
         HBox buttonBox = new HBox(button, paidButton);
         buttonBox.setSpacing(10);
 
-        VBox vbox = new VBox(tableView, gridPane, buttonBox);
+        vbox = new VBox(tableView, gridPane, buttonBox);
         vbox.setAlignment(Pos.CENTER);
 
+    }
+
+    public void show(Stage stage) {
         Scene scene = new Scene(vbox, 800, 600);
-        stage.setTitle("Customer Order View");
+        stage.setTitle("Cashier View");
         stage.setScene(scene);
         stage.show();
     }

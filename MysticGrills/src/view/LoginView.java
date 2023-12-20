@@ -4,11 +4,14 @@ import controller.LoginController;
 import controller.RegisterController;
 import controller.adminController.AdminController;
 import controller.cashierController.CashierController;
+import controller.chefController.ChefController;
 import controller.customerController.CustomerController;
+import controller.waiterController.WaiterController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
@@ -18,7 +21,9 @@ import model.User;
 import util.Singleton;
 import view.Admin.AdminView;
 import view.Cashier.CashierView;
+import view.Chef.ChefView;
 import view.Customer.CustomerView;
+import view.Waiter.WaiterView;
 
 public class LoginView {
     private TextField emailField;
@@ -33,9 +38,11 @@ public class LoginView {
         vbox = new VBox(5);
         vbox.setPadding(new Insets(10));
 
+        Label emailLabel = new Label("Email:");
         emailField = new TextField();
         emailField.setPromptText("Email");
 
+        Label passwordLabel = new Label("Password:");
         passwordField = new PasswordField();
         passwordField.setPromptText("Password");
 
@@ -54,12 +61,12 @@ public class LoginView {
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.getChildren().addAll(registerButton, loginButton);
 
-        vbox.getChildren().addAll(emailField, passwordField, buttonBox);
+        vbox.getChildren().addAll(emailLabel, emailField, passwordLabel, passwordField, buttonBox);
     }
 
     public void show(Stage stage) {
 
-        Scene scene = new Scene(vbox, 200, 150);
+        Scene scene = new Scene(vbox, 300, 150);
         stage.setTitle("Mystic Grills");
         stage.setScene(scene);
         stage.show();
@@ -88,6 +95,15 @@ public class LoginView {
                     CashierController cashierController = new CashierController();
                     Stage cashierStage = new Stage();
                     CashierView cashierView = new CashierView(cashierStage, cashierController);
+                    cashierView.show(stage);
+                } else if (role.equals("Chef")) {
+                    ChefController chefController = new ChefController();
+                    Stage chefStage = new Stage();
+                    ChefView chefView = new ChefView(chefStage, chefController);
+                } else if (role.equals("Waiter")) {
+                    WaiterController waiterController = new WaiterController();
+                    Stage waiterStage = new Stage();
+                    WaiterView waiterView = new WaiterView(waiterStage, waiterController);
                 }
             }
         }

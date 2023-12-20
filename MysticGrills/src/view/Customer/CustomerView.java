@@ -30,16 +30,22 @@ public class CustomerView {
         viewOrderButton.setOnAction(e -> {
             new CustomerViewOrderMenu(new Stage(), customerController);
         });
+        Button viewReceiptButton = new Button("View Receipt");
+        viewReceiptButton.setOnAction(e -> {
+            new CustomerViewReceipt(new Stage(), customerController);
+        });
         addOrderButton.setPrefWidth(100);
         addOrderButton.setPrefHeight(50);
         viewOrderButton.setPrefWidth(100);
         viewOrderButton.setPrefHeight(50);
+        viewReceiptButton.setPrefWidth(100);
+        viewReceiptButton.setPrefHeight(50);
 
-        hbox.getChildren().addAll(addOrderButton, viewOrderButton);
+        hbox.getChildren().addAll(addOrderButton, viewOrderButton, viewReceiptButton);
     }
 
     public void show(Stage stage) {
-        Scene scene = new Scene(hbox, 400, 400);
+        Scene scene = new Scene(hbox, 600, 500);
         stage.setTitle("Customer View");
         stage.setScene(scene);
         stage.show();

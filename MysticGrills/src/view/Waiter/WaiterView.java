@@ -21,6 +21,7 @@ public class WaiterView {
     private WaiterController waiterController;
     private TableView<Order> tableView;
     private Button button;
+    private VBox vbox;
 
     public WaiterView(Stage stage, WaiterController waiterController) {
         this.waiterController = waiterController;
@@ -33,7 +34,7 @@ public class WaiterView {
         button.setOnAction(event -> {
             stage.close();
         });
-        Button paidButton = new Button("Paid");
+        Button paidButton = new Button("Serve");
         paidButton.setPrefWidth(100);
         paidButton.setPrefHeight(50);
 
@@ -130,7 +131,7 @@ public class WaiterView {
         HBox buttonBox = new HBox(button, paidButton);
         buttonBox.setSpacing(10);
 
-        VBox vbox = new VBox(tableView, gridPane, buttonBox);
+        vbox = new VBox(tableView, gridPane, buttonBox);
         vbox.setAlignment(Pos.CENTER);
 
         Scene scene = new Scene(vbox, 800, 600);

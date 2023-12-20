@@ -22,6 +22,7 @@ public class ChefView {
     private ChefController chefController;
     private TableView<Order> tableView;
     private Button button;
+    private VBox vbox;
 
     public ChefView(Stage stage, ChefController chefController) {
         this.chefController = chefController;
@@ -34,7 +35,7 @@ public class ChefView {
         button.setOnAction(event -> {
             stage.close();
         });
-        Button paidButton = new Button("Paid");
+        Button paidButton = new Button("Prepared");
         paidButton.setPrefWidth(100);
         paidButton.setPrefHeight(50);
 
@@ -131,12 +132,12 @@ public class ChefView {
         HBox buttonBox = new HBox(button, paidButton);
         buttonBox.setSpacing(10);
 
-        VBox vbox = new VBox(tableView, gridPane, buttonBox);
+        vbox = new VBox(tableView, gridPane, buttonBox);
         vbox.setAlignment(Pos.CENTER);
-
         Scene scene = new Scene(vbox, 800, 600);
         stage.setTitle("Chef View");
         stage.setScene(scene);
         stage.show();
     }
+
 }

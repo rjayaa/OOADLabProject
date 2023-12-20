@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 20, 2023 at 06:41 PM
+-- Generation Time: Dec 20, 2023 at 08:39 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -64,8 +64,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`orderId`, `orderUser`, `orderItems`, `orderStatus`, `orderDate`, `orderTotal`) VALUES
-(2, 2, 'Chicken Alfredo,Grilled Salmon,Margherita Pizza', 'Pending', '2023-12-20 16:55:15', 147),
-(3, 2, 'Chicken Alfredo,Grilled Salmon,Caesar Salad', 'Unpaid\r\n', '2023-12-20 16:56:06', 6);
+(2, 13, 'Chicken Alfredo,Grilled Salmon', 'Prepared', '2023-12-20 19:00:34', 5);
 
 -- --------------------------------------------------------
 
@@ -84,12 +83,8 @@ CREATE TABLE `orderitem` (
 --
 
 INSERT INTO `orderitem` (`orderId`, `menuItemId`, `quantity`) VALUES
-(2, 5, 12),
-(2, 4, 122),
-(2, 2, 13),
-(3, 5, 2),
-(3, 4, 3),
-(3, 3, 1);
+(2, 5, 3),
+(2, 4, 2);
 
 -- --------------------------------------------------------
 
@@ -110,7 +105,7 @@ CREATE TABLE `receipt` (
 --
 
 INSERT INTO `receipt` (`receiptId`, `receiptOrder`, `receiptPaymentAmount`, `receiptPaymentDate`, `receiptPaymentType`) VALUES
-(1, 3, 80, '2023-12-20 16:56:06', 'Debit');
+(1, 2, 71, '2023-12-20 19:00:34', 'Credit');
 
 -- --------------------------------------------------------
 
@@ -131,9 +126,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userId`, `userRole`, `userName`, `userEmail`, `userPassword`) VALUES
-(1, 'Admin', 'admin', 'admin', 'admin'),
-(2, 'Customer', 'abcd', 'abcd', 'abcd'),
-(3, 'Cashier', 'cashier', 'cashier', 'cashier');
+(12, 'Admin', 'admin', 'admin', 'admin'),
+(13, 'Customer', 'customer', 'customer', 'customer'),
+(14, 'Chef', 'chef', 'chef', 'chef'),
+(15, 'Waiter', 'waiter', 'waiter', 'waiter'),
+(16, 'Cashier', 'cashier', 'cashier', 'cashier');
 
 --
 -- Indexes for dumped tables
@@ -185,7 +182,7 @@ ALTER TABLE `menuitem`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `orderId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `receipt`
@@ -197,7 +194,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `userId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- Constraints for dumped tables
